@@ -1,16 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import GridOverlay from "@/components/GridOverlay";
 import CaseStudyPanel from "@/components/CaseStudyPanel";
 import AboutPanel from "@/components/AboutPanel";
 import ContactPanel from "@/components/ContactPanel";
 import { projects } from "@/data/projects";
+import { annotationPool } from "@/data/annotations";
+
+function pickTwo(pool: string[]): [string, string] {
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  return [shuffled[0], shuffled[1]];
+}
 
 export default function Home() {
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [annotations] = useState(() => pickTwo(annotationPool));
 
   const activeProject =
     projects.find((p) => p.id === activeProjectId) ?? null;
@@ -45,11 +52,7 @@ export default function Home() {
           <h1 className="text-[clamp(36px,6vw,88px)] font-black leading-[0.95] tracking-[-0.03em] uppercase">
             Systems
             <br />
-            That Get
-            <br />
-            People To
-            <br />
-            Participate.
+            of Play.
           </h1>
         </div>
 
@@ -106,27 +109,23 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ─── Floating annotation labels around the hero ─── */}
+        {/* ─── Floating annotation labels — drawn at random on each load ─── */}
 
-        {/* Right side: poetic annotation */}
+        {/* Right side annotation */}
         <div className="absolute top-[38%] right-[8%] z-10 hidden md:block max-w-[200px]">
           <p className="font-mono text-[10px] leading-[1.8] text-gray-500 uppercase tracking-wider">
-            Where interaction
-            <br />
-            becomes a landscape
-            <br />
-            of participation
+            {annotations[0].split("\n").map((line, i) => (
+              <span key={i}>{line}<br /></span>
+            ))}
           </p>
         </div>
 
         {/* Left side annotation */}
         <div className="absolute top-[60%] left-6 z-10 hidden md:block max-w-[240px]">
           <p className="font-mono text-[10px] text-gray-500 uppercase tracking-wider leading-[1.8]">
-            From deep systems,
-            <br />
-            engagement draws
-            <br />
-            its strength
+            {annotations[1].split("\n").map((line, i) => (
+              <span key={i}>{line}<br /></span>
+            ))}
           </p>
         </div>
 
@@ -154,7 +153,7 @@ export default function Home() {
 
         {/* ─── Bottom-right: Bio card ─── */}
         <div className="absolute bottom-8 right-6 z-10 max-w-[280px] border border-black p-4">
-          <p className="section-label mb-2">Not a Studio — Just Me</p>
+          <p className="section-label mb-2">I Make Playgrounds</p>
           <p className="font-mono text-[10px] leading-[1.7] text-gray-600">
             I&apos;m Atlas Talisman. I design interactive systems that drive
             audience participation — from national brand activations to
