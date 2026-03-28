@@ -36,6 +36,13 @@ export default function Header({ onAboutClick, onContactClick }: HeaderProps) {
         >
           Contact
         </button>
+        <a
+          href="/atlas-talisman-cv.pdf"
+          download
+          className="text-sm px-4 py-1.5 rounded-full border border-gray-300 text-gray-600 hover:border-gray-600 hover:text-gray-900 transition-all"
+        >
+          CV ↓
+        </a>
       </nav>
     </motion.header>
   );
