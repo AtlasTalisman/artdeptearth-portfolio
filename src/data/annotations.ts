@@ -31,4 +31,13 @@ export const annotationPool = [
   "Community is\na system too",
   "Crowd energy\nis a design\nmaterial",
   "The audience\ncompletes\nthe work",
+
+  // Contributed quotes
+  "Design is about\nthree dimensions\nand the five senses",
+  "It's not about ideas,\nit's about making\nideas happen",
+  "You cannot understand\ngood design if you\ndo not understand people",
+  "Games are a series\nof interesting\ndecisions",
+  "Play is the highest\nform of research",
+  "The best interfaces\ntranslate intent\ninto action instantly",
+  "Play encourages\nimagination, which leads\nto deeper insights",
 ];
