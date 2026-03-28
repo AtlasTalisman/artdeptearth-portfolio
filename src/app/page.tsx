@@ -130,7 +130,7 @@ export default function Home() {
         </div>
 
         {/* ─── Bottom-left: Core threads ─── */}
-        <div className="absolute bottom-8 left-6 z-10">
+        <div className="absolute bottom-8 left-6 right-6 md:right-auto z-10">
           <p className="section-label mb-3">[ Core Threads of My Work ]</p>
           <div className="space-y-1">
             {[
@@ -152,7 +152,7 @@ export default function Home() {
         </div>
 
         {/* ─── Bottom-right: Bio card ─── */}
-        <div className="absolute bottom-8 right-6 z-10 max-w-[280px] border border-black p-4">
+        <div className="absolute bottom-8 right-6 z-10 max-w-[280px] border border-black p-4 hidden md:block">
           <p className="section-label mb-2">I Make Playgrounds</p>
           <p className="font-mono text-[10px] leading-[1.7] text-gray-600">
             I&apos;m Atlas Talisman. I design interactive systems that drive
