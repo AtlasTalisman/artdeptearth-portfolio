@@ -13,7 +13,7 @@ export default function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
       {isOpen && (
         <>
           <motion.div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-white/80 backdrop-blur-sm z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -21,7 +21,7 @@ export default function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
           />
 
           <motion.div
-            className="fixed left-0 top-0 h-full w-full max-w-xl bg-white z-50 overflow-y-auto shadow-2xl"
+            className="fixed left-0 top-0 h-full w-full max-w-xl bg-white z-50 overflow-y-auto border-r border-black"
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
@@ -29,20 +29,22 @@ export default function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
           >
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-600 text-xl"
+              className="absolute top-5 right-5 label-box"
             >
-              &times;
+              Close ✕
             </button>
 
-            <div className="p-8 md:p-12 pt-20">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <div className="p-8 pt-20">
+              <p className="section-label mb-4">[ About ]</p>
+
+              <h2 className="text-4xl font-black tracking-tight uppercase leading-[1] mb-2">
                 Atlas Talisman
               </h2>
-              <p className="text-base text-gray-500 mb-8">
+              <p className="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-8">
                 Creative Director / Interactive Systems Designer
               </p>
 
-              <div className="space-y-6 text-gray-700 leading-relaxed">
+              <div className="space-y-5 text-[14px] text-gray-700 leading-[1.8]">
                 <p>
                   I design systems that get people to participate. Over 20 years
                   I&apos;ve worked across digital platforms, physical activations, and
@@ -59,18 +61,14 @@ export default function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
                   content to physical places.
                 </p>
                 <p>
-                  Currently I&apos;m building at the intersection of spatial
-                  computing, AI-assisted development, and participatory design —
-                  creating tools and experiences that make interaction more
-                  human, more playful, and more connected to the real world.
+                  Currently building at the intersection of spatial computing,
+                  AI-assisted development, and participatory design.
                 </p>
                 <p>Based in Melbourne, Australia.</p>
               </div>
 
-              <div className="mt-10 pt-8 border-t border-gray-100">
-                <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4">
-                  Capabilities
-                </h3>
+              <div className="mt-10 pt-8 border-t border-gray-200">
+                <p className="section-label mb-4">[ Capabilities ]</p>
                 <div className="flex flex-wrap gap-2">
                   {[
                     "Creative Direction",
@@ -86,37 +84,28 @@ export default function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
                     "Spatial Interaction",
                     "AI-Assisted Prototyping",
                   ].map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-full text-xs text-gray-600"
-                    >
+                    <span key={skill} className="label-box text-[9px] cursor-default hover:bg-transparent hover:text-black">
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="mt-10 pt-8 border-t border-gray-100">
-                <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4">
-                  Selected Clients
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  Nestlé (Allen&apos;s Lollies, Smarties) &middot; Microsoft &middot;
-                  Commonwealth Bank &middot; KPMG &middot; Arup Engineering &middot;
-                  Tourism Australia &middot; Metaplanet &middot; Sydney
-                  Children&apos;s Hospital
+              <div className="mt-10 pt-8 border-t border-gray-200">
+                <p className="section-label mb-4">[ Selected Clients ]</p>
+                <p className="font-mono text-[11px] text-gray-600 leading-[2]">
+                  Nestlé (Allen&apos;s Lollies, Smarties) · Microsoft ·
+                  Commonwealth Bank · KPMG · Arup Engineering ·
+                  Tourism Australia · Metaplanet · Sydney Children&apos;s Hospital
                 </p>
               </div>
 
-              <div className="mt-10 pt-8 border-t border-gray-100">
-                <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4">
-                  Tools & Systems
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  Adobe Creative Suite &middot; Unity &middot; Unreal Engine
-                  &middot; Maya &middot; React / Next.js (working knowledge)
-                  &middot; Three.js / R3F (learning + applied) &middot;
-                  AI-assisted development workflows
+              <div className="mt-10 pt-8 border-t border-gray-200">
+                <p className="section-label mb-4">[ Tools & Systems ]</p>
+                <p className="font-mono text-[11px] text-gray-600 leading-[2]">
+                  Adobe Creative Suite · Unity · Unreal Engine · Maya ·
+                  React / Next.js · Three.js / R3F ·
+                  AI-assisted prototyping workflows
                 </p>
               </div>
             </div>

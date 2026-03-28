@@ -18,7 +18,7 @@ export default function CaseStudyPanel({
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-white/80 backdrop-blur-sm z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -27,29 +27,23 @@ export default function CaseStudyPanel({
 
           {/* Panel */}
           <motion.div
-            className="fixed right-0 top-0 h-full w-full max-w-2xl bg-white z-50 overflow-y-auto shadow-2xl"
+            className="fixed right-0 top-0 h-full w-full max-w-2xl bg-white z-50 overflow-y-auto border-l border-black"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
           >
-            {/* Close button */}
-            <button
-              onClick={onClose}
-              className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-600 text-xl z-10"
-            >
-              &times;
-            </button>
-
-            {/* Color accent bar */}
-            <div
-              className="h-2 w-full"
-              style={{ backgroundColor: project.color }}
-            />
+            {/* Top bar */}
+            <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-8 py-5 border-b border-black">
+              <p className="section-label">[ Case Study ]</p>
+              <button onClick={onClose} className="label-box">
+                Close ✕
+              </button>
+            </div>
 
             {/* Image placeholder */}
             {project.image ? (
-              <div className="w-full h-64 bg-gray-100 overflow-hidden">
+              <div className="w-full aspect-[16/9] bg-gray-50 overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
@@ -57,58 +51,49 @@ export default function CaseStudyPanel({
                 />
               </div>
             ) : (
-              <div
-                className="w-full h-48 flex items-center justify-center"
-                style={{
-                  background: `linear-gradient(135deg, ${project.color}22, ${project.color}44)`,
-                }}
-              >
-                <span className="text-gray-400 text-sm tracking-widest uppercase">
-                  Visual assets incoming
-                </span>
+              <div className="w-full aspect-[16/9] bg-gray-50 flex items-center justify-center border-b border-gray-200">
+                <div className="w-8 h-8 border border-gray-300 rotate-45" />
               </div>
             )}
 
-            <div className="p-8 md:p-12">
+            <div className="p-8">
               {/* Header */}
-              <div className="mb-8">
-                <p
-                  className="text-sm font-medium tracking-widest uppercase mb-2"
-                  style={{ color: project.color }}
-                >
+              <div className="mb-10">
+                <p className="font-mono text-[10px] text-gray-400 uppercase tracking-wider mb-2">
                   {project.year}
                 </p>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <h2 className="text-3xl font-black tracking-tight uppercase leading-[1.1] mb-2">
                   {project.title}
                 </h2>
-                <p className="text-base text-gray-500">{project.role}</p>
+                <p className="font-mono text-[11px] text-gray-500">
+                  {project.role}
+                </p>
               </div>
 
               {/* System */}
               <Section title="System">
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-[14px] text-gray-700 leading-[1.8]">
                   {project.system}
                 </p>
               </Section>
 
               {/* Mechanic */}
               <Section title="Mechanic">
-                <p className="text-gray-800 leading-relaxed font-medium bg-gray-50 p-4 rounded-lg border-l-4"
-                  style={{ borderColor: project.color }}
-                >
-                  {project.mechanic}
-                </p>
+                <div className="border-l-2 border-black pl-4 py-1">
+                  <p className="text-[14px] text-black leading-[1.8] font-medium">
+                    {project.mechanic}
+                  </p>
+                </div>
               </Section>
 
               {/* Interaction */}
               <Section title="Interaction">
                 <ul className="space-y-2">
                   {project.interaction.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-gray-700">
-                      <span
-                        className="mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: project.color }}
-                      />
+                    <li key={i} className="flex items-start gap-3 text-[13px] text-gray-700">
+                      <span className="font-mono text-[9px] text-gray-400 mt-1">
+                        [{String(i + 1).padStart(2, "0")}]
+                      </span>
                       {item}
                     </li>
                   ))}
@@ -119,11 +104,8 @@ export default function CaseStudyPanel({
               <Section title="What Changed">
                 <ul className="space-y-2">
                   {project.outcome.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-gray-700">
-                      <span
-                        className="mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: project.color }}
-                      />
+                    <li key={i} className="flex items-start gap-3 text-[13px] text-gray-700">
+                      <span className="font-mono text-[9px] text-gray-400 mt-1">→</span>
                       {item}
                     </li>
                   ))}
@@ -134,8 +116,8 @@ export default function CaseStudyPanel({
               <Section title="Build">
                 <ul className="space-y-2">
                   {project.build.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-gray-600 text-sm">
-                      <span className="mt-2 w-1 h-1 rounded-full bg-gray-300 flex-shrink-0" />
+                    <li key={i} className="flex items-start gap-3 text-[12px] text-gray-500">
+                      <span className="font-mono text-[9px] text-gray-300 mt-1">—</span>
                       {item}
                     </li>
                   ))}
@@ -144,16 +126,14 @@ export default function CaseStudyPanel({
 
               {/* Link */}
               {project.link && (
-                <div className="mt-10 pt-6 border-t border-gray-100">
+                <div className="mt-10 pt-6 border-t border-gray-200">
                   <a
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white text-sm font-medium transition-opacity hover:opacity-90"
-                    style={{ backgroundColor: project.color }}
+                    className="label-box"
                   >
-                    View Live Project
-                    <span className="text-lg">&rarr;</span>
+                    View Live Project →
                   </a>
                 </div>
               )}
@@ -174,9 +154,7 @@ function Section({
 }) {
   return (
     <div className="mb-8">
-      <h3 className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">
-        {title}
-      </h3>
+      <p className="section-label mb-3">[ {title} ]</p>
       {children}
     </div>
   );

@@ -13,7 +13,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
       {isOpen && (
         <>
           <motion.div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-white/80 backdrop-blur-sm z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -21,68 +21,59 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
           />
 
           <motion.div
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white z-50 rounded-2xl shadow-2xl overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white z-50 border border-black overflow-hidden"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
           >
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-600 text-lg"
-            >
-              &times;
-            </button>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-black">
+              <p className="section-label">[ Contact ]</p>
+              <button onClick={onClose} className="label-box text-[9px]">
+                Close ✕
+              </button>
+            </div>
 
-            <div className="p-8 pt-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                Get in touch
-              </h2>
-              <p className="text-sm text-gray-500 mb-8">
+            <div className="p-6">
+              <p className="font-mono text-[11px] text-gray-500 mb-6">
                 Available for creative direction, experience design, and
                 interactive systems projects.
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <a
                   href="mailto:atlastalisman@gmail.com"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors group"
+                  className="flex items-center gap-4 p-4 border border-gray-200 hover:border-black transition-colors group"
                 >
-                  <span className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-lg">
-                    @
-                  </span>
+                  <span className="font-mono text-[10px] text-gray-400 group-hover:text-black">@</span>
                   <div>
-                    <p className="text-sm font-medium text-gray-900 group-hover:text-gray-700">
+                    <p className="font-mono text-[11px] font-bold">
                       atlastalisman@gmail.com
                     </p>
-                    <p className="text-xs text-gray-400">Email</p>
+                    <p className="font-mono text-[9px] text-gray-400">Email</p>
                   </div>
                 </a>
 
                 <a
                   href="tel:+61493091039"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors group"
+                  className="flex items-center gap-4 p-4 border border-gray-200 hover:border-black transition-colors group"
                 >
-                  <span className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-lg">
-                    &phone;
-                  </span>
+                  <span className="font-mono text-[10px] text-gray-400 group-hover:text-black">T</span>
                   <div>
-                    <p className="text-sm font-medium text-gray-900 group-hover:text-gray-700">
+                    <p className="font-mono text-[11px] font-bold">
                       +61 493 091 039
                     </p>
-                    <p className="text-xs text-gray-400">Phone</p>
+                    <p className="font-mono text-[9px] text-gray-400">Phone</p>
                   </div>
                 </a>
 
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50">
-                  <span className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-lg">
-                    &marker;
-                  </span>
+                <div className="flex items-center gap-4 p-4 border border-gray-200">
+                  <span className="font-mono text-[10px] text-gray-400">M</span>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="font-mono text-[11px] font-bold">
                       Melbourne, Australia
                     </p>
-                    <p className="text-xs text-gray-400">Location</p>
+                    <p className="font-mono text-[9px] text-gray-400">Location</p>
                   </div>
                 </div>
               </div>
