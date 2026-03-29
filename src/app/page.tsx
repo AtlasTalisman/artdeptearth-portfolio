@@ -1,12 +1,19 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
+import dynamic from "next/dynamic";
 import GridOverlay from "@/components/GridOverlay";
 import CaseStudyPanel from "@/components/CaseStudyPanel";
 import AboutPanel from "@/components/AboutPanel";
 import ContactPanel from "@/components/ContactPanel";
 import { projects } from "@/data/projects";
 import { annotationPool } from "@/data/annotations";
+
+const NetworkSculpture = dynamic(
+  () => import("@/components/NetworkSculpture"),
+  { ssr: false }
+);
+
 
 function pickTwo(pool: string[]): [string, string] {
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
@@ -17,7 +24,18 @@ export default function Home() {
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
-  const [annotations] = useState(() => pickTwo(annotationPool));
+  const [annotations, setAnnotations] = useState<[string, string]>(["", ""]);
+  useEffect(() => { setAnnotations(pickTwo(annotationPool)); }, []);
+
+  const handleKnock = useCallback(() => {
+    // Cone has fallen off its ground plane — scroll down to selected works
+    const el = document.getElementById("selected-works");
+    if (el) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 350); // slight delay so the fall animation is visible first
+    }
+  }, []);
 
   const activeProject =
     projects.find((p) => p.id === activeProjectId) ?? null;
@@ -70,43 +88,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ─── Central hero area — placeholder for visual ─── */}
-        <div className="absolute inset-0 flex items-center justify-center z-0">
-          <div className="relative w-[320px] h-[320px] md:w-[420px] md:h-[420px]">
-            {/* Rotating border ring */}
-            <div
-              className="absolute inset-0 border border-gray-200 rounded-full"
-              style={{
-                animation: "spin 30s linear infinite",
-              }}
-            />
-            <div
-              className="absolute inset-4 border border-gray-300 rounded-full"
-              style={{
-                animation: "spin 20s linear infinite reverse",
-              }}
-            />
-            {/* Center mark */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-3 h-3 border border-black rotate-45" />
-            </div>
-
-            {/* Annotation connectors from center to labels */}
-            {/* Top-right connector */}
-            <div className="absolute top-[20%] right-[-60px] hidden md:block">
-              <div className="flex items-center gap-0">
-                <div className="w-[60px] h-[1px] bg-black" />
-                <div className="w-2 h-2 border border-black bg-white" />
-              </div>
-            </div>
-            {/* Bottom-left connector */}
-            <div className="absolute bottom-[25%] left-[-80px] hidden md:block">
-              <div className="flex items-center gap-0">
-                <div className="w-2 h-2 border border-black bg-white" />
-                <div className="w-[80px] h-[1px] bg-black" />
-              </div>
-            </div>
-          </div>
+        {/* ─── Central hero — traffic cone ─── */}
+        <div className="absolute inset-0 z-0">
+          <NetworkSculpture onKnock={handleKnock} />
         </div>
 
         {/* ─── Floating annotation labels — drawn at random on each load ─── */}
@@ -178,23 +162,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Spin keyframe */}
-        <style jsx>{`
-          @keyframes spin {
-            from {
-              transform: rotate(0deg);
-            }
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        `}</style>
       </section>
 
       {/* ─── PROJECTS SECTION ─── */}
-      <section className="relative px-6 py-24 border-t border-gray-200">
+      <section id="selected-works" className="relative px-6 py-24 border-t border-gray-200">
         <div className="mb-16">
-          <p className="section-label mb-4">[ Selected Systems ]</p>
+          <p className="section-label mb-4">[ Selected Works ]</p>
           <h2 className="text-[clamp(28px,4vw,56px)] font-black leading-[1] tracking-[-0.03em] uppercase max-w-3xl">
             I design systems that
             <br />

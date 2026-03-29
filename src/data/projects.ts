@@ -15,6 +15,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  // ── 01 ──
   {
     id: "dosomething",
     title: "dosomething.art",
@@ -44,6 +45,7 @@ export const projects: Project[] = [
     color: "#4ECDC4",
     tier: "hero",
   },
+  // ── 02 ──
   {
     id: "allens",
     title: "Allen's Lollies National Tour",
@@ -72,34 +74,36 @@ export const projects: Project[] = [
     color: "#FF6B6B",
     tier: "hero",
   },
+  // ── 03 ──
   {
-    id: "newkind",
-    title: "Newkind Festival ARG",
-    role: "Co-Founder / Creative Director",
-    year: "2016–2017",
+    id: "ocm",
+    title: "OnChain Monkey / Metaplanet",
+    role: "Art Director / Creative Manager",
+    year: "2022–2023",
     system:
-      "Co-founded a festival and designed an alternate reality game that gamified attendee participation across workshops, talks, and site experiences using physical-digital hybrid mechanics.",
+      "Art directed a series of digital collectibles and gamified community engagement mechanics for a Tokyo-based NFT project, bridging physical gallery experiences with blockchain-native digital ownership.",
     mechanic:
-      "Attendees tapped RFID tags at workshops and experiences to level up their character, creating cross-event engagement loops that incentivised exploration and participation across the full programme.",
+      "Community members collected and revealed digital art assets through gamified reveal sequences, each collectible functioning as both an art object and a participation token within the broader ecosystem.",
     interaction: [
-      "RFID tag scanning at workshops and activations",
-      "Character progression system tied to real-world participation",
-      "Cross-workshop engagement loops encouraging exploration",
-      "Physical-digital hybrid game layer over a live festival",
+      "Gamified reveal sequences for digital collectibles",
+      "Community engagement through collectible mechanics",
+      "Physical gallery to digital ownership bridging",
+      "Cross-platform participation across social and blockchain",
     ],
     outcome: [
-      "Delivered a 100% solar-powered, zero-waste festival",
-      "Demonstrated a working RFID-based participation system at event scale",
-      "Created cross-programme engagement that increased workshop attendance",
+      "Delivered multiple collectible series with active community participation",
+      "Transitioned the UltraSuperNew gallery in Tokyo from analogue art to immersive new media",
+      "Designed a digital art marketplace and minting platform",
     ],
     build: [
-      "Designed the ARG system, character progression, and RFID integration",
-      "Art directed all festival branding and motion design",
-      "Managed full event production, site mapping, and staff recruitment",
+      "Art directed all visual assets and motion design",
+      "Designed tokenomics and community engagement mechanics",
+      "Managed marketing, communications, and community growth",
     ],
-    color: "#FFE66D",
+    color: "#FF9A76",
     tier: "hero",
   },
+  // ── 04 ──
   {
     id: "terralux",
     title: "The Spatial Network",
@@ -129,61 +133,178 @@ export const projects: Project[] = [
     color: "#845EC2",
     tier: "hero",
   },
+  // ── 05 ──
   {
-    id: "ocm",
-    title: "OnChain Monkey / Metaplanet",
-    role: "Art Director / Creative Manager",
-    year: "2022–2023",
+    id: "tourism-australia",
+    title: "Tourism Australia",
+    role: "Creative Director / Video Producer",
+    year: "2015",
     system:
-      "Art directed a series of digital collectibles and gamified community engagement mechanics for a Tokyo-based NFT project, bridging physical gallery experiences with blockchain-native digital ownership.",
+      "Directed a promotional video campaign showcasing Australian tourism experiences, combining location cinematography with narrative storytelling to drive destination engagement.",
     mechanic:
-      "Community members collected and revealed digital art assets through gamified reveal sequences, each collectible functioning as both an art object and a participation token within the broader ecosystem.",
+      "Produced video content designed to inspire travel intent through aspirational storytelling, capturing iconic Australian landscapes and experiences in a format optimised for digital distribution.",
     interaction: [
-      "Gamified reveal sequences for digital collectibles",
-      "Community engagement through collectible mechanics",
-      "Physical gallery to digital ownership bridging",
-      "Cross-platform participation across social and blockchain",
+      "Aspirational destination storytelling through video",
+      "Location scouting and cinematography direction",
+      "Digital-first content strategy for tourism marketing",
+      "Cross-platform video distribution and engagement",
     ],
     outcome: [
-      "Delivered multiple collectible series with active community participation",
-      "Transitioned the UltraSuperNew gallery in Tokyo from analogue art to immersive new media",
-      "Designed a digital art marketplace and minting platform",
+      "Delivered a polished promotional video for Tourism Australia",
+      "Demonstrated ability to direct large-scale location shoots",
+      "Produced content optimised for digital engagement metrics",
     ],
     build: [
-      "Art directed all visual assets and motion design",
-      "Designed tokenomics and community engagement mechanics",
-      "Managed marketing, communications, and community growth",
+      "Creative direction of the full video production",
+      "Managed location shoots and post-production",
+      "Directed narrative structure and visual storytelling",
     ],
-    color: "#FF9A76",
+    color: "#2D9CDB",
     tier: "supporting",
   },
+  // ── 06 ──
   {
-    id: "theatre",
-    title: "Open World Theatre",
-    role: "Director / Creator",
-    year: "2016–Present",
+    id: "newkind",
+    title: "Newkind Festival ARG",
+    role: "Co-Founder / Creative Director",
+    year: "2016–2017",
     system:
-      "Founded a practice bridging live theatre, immersive dining, and new media to create participatory performance experiences where audiences shape the narrative through their presence and choices.",
+      "Co-founded a festival and designed an alternate reality game that gamified attendee participation across workshops, talks, and site experiences using physical-digital hybrid mechanics.",
     mechanic:
-      "Audiences enter designed environments where sensory cues, spatial navigation, and interaction prompts replace traditional spectatorship with active participation in unfolding experiences.",
+      "Attendees tapped RFID tags at workshops and experiences to level up their character, creating cross-event engagement loops that incentivised exploration and participation across the full programme.",
     interaction: [
-      "Immersive dining events and sensory art experiences",
-      "Somatic performance training with 100+ participants",
-      "Cross-medium experiential design (theatre, dining, digital)",
-      "Transmedia event development (grant-funded at Legs On The Wall)",
+      "RFID tag scanning at workshops and activations",
+      "Character progression system tied to real-world participation",
+      "Cross-workshop engagement loops encouraging exploration",
+      "Physical-digital hybrid game layer over a live festival",
     ],
     outcome: [
-      "Opened a Human Interaction Lab with 100+ active participants",
-      "Received arts grant for transmedia event bridging live theatre and new media",
-      "Established an ongoing practice in experiential and participatory design",
+      "Delivered a 100% solar-powered, zero-waste festival",
+      "Demonstrated a working RFID-based participation system at event scale",
+      "Created cross-programme engagement that increased workshop attendance",
     ],
     build: [
-      "Creative direction of stage productions, public art, and festivals",
-      "Designed somatic and communication training curricula",
-      "Produced cross-medium sensory experiences",
+      "Designed the ARG system, character progression, and RFID integration",
+      "Art directed all festival branding and motion design",
+      "Managed full event production, site mapping, and staff recruitment",
     ],
-    link: "https://www.openworldtheatre.com",
-    color: "#C9B1FF",
+    color: "#FFE66D",
+    tier: "hero",
+  },
+  // ── 07 ──
+  {
+    id: "terralux-memberships",
+    title: "TerraLux Memberships",
+    role: "Creative Director / AI Video Producer",
+    year: "2024",
+    system:
+      "Produced an AI-generated promotional video for TerraLux membership tiers, combining AI video generation, AI-composed music, and voice-over narration into a cohesive brand film.",
+    mechanic:
+      "Leveraged generative AI tools for video synthesis and music composition, layered with original voice-over narration to demonstrate how AI-assisted production can deliver polished brand content at speed.",
+    interaction: [
+      "AI-generated video sequences and visual storytelling",
+      "AI-composed soundtrack tailored to brand tone",
+      "Voice-over narration scripting and recording",
+      "End-to-end AI-assisted production pipeline",
+    ],
+    outcome: [
+      "Delivered a polished membership promo video using AI-first production",
+      "Demonstrated viable AI video + music pipeline for brand content",
+      "Showcased creative direction skills applied to emerging AI tools",
+    ],
+    build: [
+      "Directed AI video generation and prompt engineering",
+      "Composed soundtrack using AI music generation tools",
+      "Wrote and recorded voice-over narration",
+    ],
+    color: "#56CCF2",
+    tier: "supporting",
+  },
+  // ── 08 ──
+  {
+    id: "people-soup",
+    title: "People Soup Comedy Trailer",
+    role: "Animator / Motion Graphics Designer",
+    year: "2023",
+    system:
+      "Designed and animated a comedy trailer combining character animation with motion graphics, demonstrating storytelling through movement, timing, and visual humour.",
+    mechanic:
+      "Used animation and motion design to establish comedic tone and narrative hook, crafting a trailer that communicates genre, pace, and personality through visual rhythm and graphic transitions.",
+    interaction: [
+      "Character animation and comedic timing",
+      "Motion graphics design and visual transitions",
+      "Narrative trailer structure and pacing",
+      "Brand tone establishment through animation style",
+    ],
+    outcome: [
+      "Delivered a polished comedy trailer with strong visual identity",
+      "Demonstrated animation and motion graphics proficiency",
+      "Showcased ability to communicate tone and narrative through motion",
+    ],
+    build: [
+      "Designed and animated all motion graphics sequences",
+      "Directed visual pacing and comedic timing",
+      "Managed end-to-end trailer production",
+    ],
+    color: "#F2994A",
+    tier: "supporting",
+  },
+  // ── 09 ──
+  {
+    id: "graphic-assets",
+    title: "Graphic Design & Generative Art",
+    role: "Designer / Creative Technologist",
+    year: "2010–Present",
+    system:
+      "A curated gallery of graphic design work spanning Photoshop, Illustrator, InDesign, and procedural image generation using the Processing framework — showcasing range across manual and computational design.",
+    mechanic:
+      "Combines traditional graphic design craft with generative computational approaches, demonstrating fluency across industry-standard tools and creative coding for procedural visual output.",
+    interaction: [
+      "Brand identity and print design (Photoshop, Illustrator, InDesign)",
+      "Procedural image generation using Processing framework",
+      "Computational design and generative visual systems",
+      "Cross-medium visual design from print to screen to code",
+    ],
+    outcome: [
+      "Built a diverse portfolio spanning traditional and computational design",
+      "Demonstrated fluency across Adobe Creative Suite and creative coding",
+      "Produced generative art systems with unique procedural aesthetics",
+    ],
+    build: [
+      "Graphic design across Photoshop, Illustrator, and InDesign",
+      "Creative coding with Processing for generative visuals",
+      "Art direction for brand, print, and digital outputs",
+    ],
+    color: "#BB6BD9",
+    tier: "supporting",
+  },
+  // ── 10 ──
+  {
+    id: "from-nothing",
+    title: "From Nothing Webseries",
+    role: "Creator / Director / Producer",
+    year: "2018",
+    system:
+      "Created and directed a webseries exploring creative process and making, produced end-to-end from concept through scripting, filming, editing, and digital distribution.",
+    mechanic:
+      "Each episode followed a structured format blending documentary storytelling with creative experimentation, designed for short-form digital consumption and audience engagement across social platforms.",
+    interaction: [
+      "Episodic storytelling designed for web distribution",
+      "Documentary-style creative process exploration",
+      "Short-form content optimised for social engagement",
+      "End-to-end production from concept to distribution",
+    ],
+    outcome: [
+      "Produced and released a complete multi-episode webseries",
+      "Demonstrated end-to-end video production capability",
+      "Built an audience through consistent episodic content",
+    ],
+    build: [
+      "Created series concept, format, and episode structure",
+      "Directed filming, edited, and managed post-production",
+      "Managed digital distribution and audience engagement",
+    ],
+    color: "#27AE60",
     tier: "supporting",
   },
 ];
