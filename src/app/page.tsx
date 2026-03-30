@@ -71,7 +71,7 @@ export default function Home() {
         </div>
 
         {/* ─── Main headline ─── */}
-        <div className="absolute top-[10vh] left-6 z-10 max-w-[55%]">
+        <div className="absolute top-[10vh] left-6 z-10 max-w-[55%] pointer-events-none">
           <h1 className="text-[clamp(36px,6vw,88px)] font-black leading-[0.95] tracking-[-0.03em] uppercase">
             Systems
             <br />
@@ -80,7 +80,7 @@ export default function Home() {
         </div>
 
         {/* ─── Annotation: top-right definition box ─── */}
-        <div className="absolute top-[12vh] right-6 z-10 border border-black p-4 max-w-[220px]">
+        <div className="absolute top-[12vh] right-6 z-10 border border-black p-4 max-w-[220px] pointer-events-none">
           <p className="font-mono text-[11px] font-bold tracking-wider uppercase mb-2">
             Art Dept Earth
             <span className="text-gray-400 ml-2 font-normal">/26</span>
@@ -94,7 +94,7 @@ export default function Home() {
         </div>
 
         {/* ─── Central hero — traffic cone ─── */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-5">
           <NetworkSculpture onKnock={handleKnock} />
         </div>
 
@@ -119,7 +119,7 @@ export default function Home() {
         </div>
 
         {/* ─── Bottom-left: Core threads ─── */}
-        <div className="absolute bottom-8 left-6 right-6 md:right-auto z-10">
+        <div className="absolute bottom-8 left-6 right-6 md:right-auto z-10 pointer-events-none">
           <p className="section-label mb-3">[ Core Threads of My Work ]</p>
           <div className="space-y-1">
             {[

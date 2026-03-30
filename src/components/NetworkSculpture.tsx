@@ -96,26 +96,29 @@ function TrafficCone({ onKnock }: { onKnock?: () => void }) {
     setOrangeColor("#e06000");
   };
 
-  useFrame(() => {
+  useFrame((_, rawDelta) => {
     const g = groupRef.current;
     if (!g) return;
     const p = phase.current;
 
-    // Shared: angular damping + tilt spring
-    angV.current *= ANG_DAMP;
-    rotY.current += angV.current;
+    // Normalise delta to 60fps equivalent — ensures consistent physics across frame rates
+    const dt = Math.min(rawDelta, 0.05) * 60;
 
-    vt.current.x += -tilt.current.x * TILT_SPRING;
-    vt.current.z += -tilt.current.z * TILT_SPRING;
-    vt.current.x *= TILT_DAMP;
-    vt.current.z *= TILT_DAMP;
-    tilt.current.x += vt.current.x;
-    tilt.current.z += vt.current.z;
+    // Shared: angular damping + tilt spring
+    angV.current *= Math.pow(ANG_DAMP, dt);
+    rotY.current += angV.current * dt;
+
+    vt.current.x += -tilt.current.x * TILT_SPRING * dt;
+    vt.current.z += -tilt.current.z * TILT_SPRING * dt;
+    vt.current.x *= Math.pow(TILT_DAMP, dt);
+    vt.current.z *= Math.pow(TILT_DAMP, dt);
+    tilt.current.x += vt.current.x * dt;
+    tilt.current.z += vt.current.z * dt;
 
     // ── FALLING — initial drop from top, bounces, settles ──
     if (p === "falling") {
-      vel.current.y += GRAVITY;
-      py.current    += vel.current.y;
+      vel.current.y += GRAVITY * dt;
+      py.current    += vel.current.y * dt;
 
       if (py.current <= GROUND_Y && vel.current.y < 0) {
         py.current = GROUND_Y;
@@ -141,20 +144,20 @@ function TrafficCone({ onKnock }: { onKnock?: () => void }) {
     // ── KNOCKED — sliding on ground, then falling off edge ──
     else if (p === "knocked") {
       // Horizontal slide with friction
-      vel.current.x *= SLIDE_DAMP;
-      px.current    += vel.current.x;
+      vel.current.x *= Math.pow(SLIDE_DAMP, dt);
+      px.current    += vel.current.x * dt;
 
       // Tilt based on horizontal velocity (lean into direction of travel)
       const tz = THREE.MathUtils.clamp(-vel.current.x * 4.0, -1.3, 1.3);
-      tilt.current.z += (tz - tilt.current.z) * 0.12;
+      tilt.current.z += (tz - tilt.current.z) * 0.12 * dt;
 
       // Past ground edge → gravity pulls cone down, it tumbles off
       if (Math.abs(px.current) > GROUND_EDGE) {
-        vel.current.y += GRAVITY;
-        py.current    += vel.current.y;
+        vel.current.y += GRAVITY * dt;
+        py.current    += vel.current.y * dt;
         // Extra tumble as it falls
-        angV.current += vel.current.x * 0.012;
-        tilt.current.x += 0.02 * Math.sign(vel.current.x);
+        angV.current += vel.current.x * 0.012 * dt;
+        tilt.current.x += 0.02 * Math.sign(vel.current.x) * dt;
 
         // Fire scroll callback once when fall begins
         if (!hasFired.current) {
@@ -170,7 +173,7 @@ function TrafficCone({ onKnock }: { onKnock?: () => void }) {
 
       // Velocity died before reaching edge → ease back to center, return to idle
       if (Math.abs(vel.current.x) < 0.002 && Math.abs(px.current) <= GROUND_EDGE) {
-        px.current *= 0.93;          // spring back to center
+        px.current *= Math.pow(0.93, dt);
         if (Math.abs(px.current) < 0.01) {
           px.current = 0;
           vel.current = { x: 0, y: 0 };
@@ -211,8 +214,16 @@ function TrafficCone({ onKnock }: { onKnock?: () => void }) {
     }
   };
 
+  const handleClick = () => {
+    if (phase.current !== "idle") return;
+    phase.current = "knocked";
+    const dir = Math.random() > 0.5 ? 1 : -1;
+    vel.current.x = dir * (0.04 + Math.random() * 0.03);
+    angV.current  = dir * (0.08 + Math.random() * 0.06);
+  };
+
   return (
-    <group ref={groupRef} onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
+    <group ref={groupRef} onPointerEnter={handleEnter} onPointerLeave={handleLeave} onClick={handleClick}>
       {/* Base */}
       <RoundedBox args={[1.3, 0.13, 1.3]} radius={0.05} smoothness={4} position={[0, -0.10, 0]}>
         <primitive object={m.coneBase} attach="material" />
