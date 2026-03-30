@@ -113,6 +113,13 @@ body {
   transform: translateY(-50%);
 }
 
+/* ═══ COIN SPIN — Y-axis rotation for project grid coins ═══ */
+
+@keyframes coin-spin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
 /* ═══ KNOCKED — triggered when cone physics collides with UI elements ═══ */
 
 @keyframes knocked {

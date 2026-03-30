@@ -7,6 +7,11 @@ import CaseStudyPanel from "@/components/CaseStudyPanel";
 import AboutPanel from "@/components/AboutPanel";
 import ContactPanel from "@/components/ContactPanel";
 import { projects } from "@/data/projects";
+
+// Varied spin durations so coins feel desynchronised
+const COIN_DURATIONS = [3.2, 4.1, 3.7, 4.5, 3.4, 4.8, 3.9, 4.3, 3.6, 5.0, 4.0, 3.5];
+// Negative delays so each coin starts at a different point in its cycle
+const COIN_DELAYS = [-1.1, -0.3, -2.4, -1.8, -0.7, -3.1, -2.0, -0.5, -1.5, -2.8, -0.9, -1.7];
 import { annotationPool } from "@/data/annotations";
 
 const NetworkSculpture = dynamic(
@@ -181,22 +186,71 @@ export default function Home() {
             <button
               key={project.id}
               onClick={() => setActiveProjectId(project.id)}
-              className="bg-white p-8 text-left group hover:bg-gray-50 transition-colors"
+              className="bg-white p-8 text-left group hover:bg-gray-50 transition-colors cursor-pointer"
             >
-              {/* Project image placeholder */}
-              {project.image ? (
-                <div className="w-full aspect-[16/10] bg-gray-100 mb-6 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+              {/* Rotating coin */}
+              <div
+                className="w-full aspect-[16/10] mb-6 flex items-center justify-center"
+                style={{ perspective: "800px" }}
+              >
+                <div
+                  className="h-[55%] aspect-square relative group-hover:scale-110 transition-transform duration-300"
+                  style={{
+                    transformStyle: "preserve-3d",
+                    animation: `coin-spin ${COIN_DURATIONS[i % COIN_DURATIONS.length]}s linear infinite`,
+                    animationDelay: `${COIN_DELAYS[i % COIN_DELAYS.length]}s`,
+                  }}
+                >
+                  {/* Front face */}
+                  <div
+                    className="absolute inset-0 rounded-full overflow-hidden"
+                    style={{
+                      backfaceVisibility: "hidden",
+                      boxShadow:
+                        "inset 0 3px 6px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.25), 0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
+                    }}
+                  >
+                    <img
+                      src={project.coinImage}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Bevel rim highlight */}
+                    <div
+                      className="absolute inset-0 rounded-full pointer-events-none"
+                      style={{
+                        boxShadow:
+                          "inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(0,0,0,0.3)",
+                        border: "1.5px solid rgba(0,0,0,0.12)",
+                      }}
+                    />
+                  </div>
+                  {/* Back face */}
+                  <div
+                    className="absolute inset-0 rounded-full overflow-hidden"
+                    style={{
+                      backfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
+                      boxShadow:
+                        "inset 0 3px 6px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.25), 0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
+                    }}
+                  >
+                    <img
+                      src="/images/coins/coin-click.png"
+                      alt="Click to view"
+                      className="w-full h-full object-cover"
+                    />
+                    <div
+                      className="absolute inset-0 rounded-full pointer-events-none"
+                      style={{
+                        boxShadow:
+                          "inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(0,0,0,0.3)",
+                        border: "1.5px solid rgba(0,0,0,0.12)",
+                      }}
+                    />
+                  </div>
                 </div>
-              ) : (
-                <div className="w-full aspect-[16/10] bg-gray-50 mb-6 flex items-center justify-center border border-gray-100">
-                  <div className="w-6 h-6 border border-gray-300 rotate-45" />
-                </div>
-              )}
+              </div>
 
               <div className="flex items-start justify-between gap-4">
                 <div>

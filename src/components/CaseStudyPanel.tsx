@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/data/projects";
+import MediaBlock from "@/components/MediaBlock";
 
 interface CaseStudyPanelProps {
   project: Project | null;
@@ -41,20 +42,8 @@ export default function CaseStudyPanel({
               </button>
             </div>
 
-            {/* Image placeholder */}
-            {project.image ? (
-              <div className="w-full aspect-[16/9] bg-gray-50 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ) : (
-              <div className="w-full aspect-[16/9] bg-gray-50 flex items-center justify-center border-b border-gray-200">
-                <div className="w-8 h-8 border border-gray-300 rotate-45" />
-              </div>
-            )}
+            {/* Media */}
+            <MediaBlock media={project.media} />
 
             <div className="p-8">
               {/* Header */}
