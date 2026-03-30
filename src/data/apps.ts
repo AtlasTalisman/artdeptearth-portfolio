@@ -21,7 +21,7 @@ export const apps: App[] = [
     tags: ["Pixel Art", "Browser Tool", "Chiptune", "Export"],
     tech: ["JavaScript", "Node.js", "Express", "Web Audio API"],
     year: "2025",
-    liveUrl: null, // replace with deployed URL e.g. "https://pixel-forge.onrender.com"
+    liveUrl: "https://pixel-forge-fx5o.onrender.com",
     githubUrl: "https://github.com/CircusEarth/pixel-forge",
     color: "#FF6B6B",
   },
