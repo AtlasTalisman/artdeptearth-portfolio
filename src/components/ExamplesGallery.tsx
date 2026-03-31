@@ -8,13 +8,15 @@ interface ExamplesGalleryProps {
   items?: GalleryItem[];
   defaultFocalIndex?: number;
   asHero?: boolean;
+  hoverScale?: number;
+  focalScale?: number;
 }
 
 const PAGE_SIZE_DEFAULT = 3;
 const PAGE_SIZE_HERO = 5;
 const ORIGINS = ["left center", "center", "right center"];
 
-export default function ExamplesGallery({ images, items, defaultFocalIndex, asHero }: ExamplesGalleryProps) {
+export default function ExamplesGallery({ images, items, defaultFocalIndex, asHero, hoverScale = 1.07, focalScale = 1.22 }: ExamplesGalleryProps) {
   const allItems: GalleryItem[] = items
     ? items
     : (images ?? []).map((src) => ({ src, title: "", tools: "", output: "" }));
@@ -183,9 +185,9 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
                   style={{
                     transform:
                       !hasMetadata && isFocal
-                        ? "scale(1.22)"
+                        ? `scale(${focalScale})`
                         : !hasMetadata && isHovered
-                        ? "scale(1.07)"
+                        ? `scale(${hoverScale})`
                         : "scale(1)",
                     transformOrigin: ORIGINS[i] ?? "center",
                     boxShadow: isFocal

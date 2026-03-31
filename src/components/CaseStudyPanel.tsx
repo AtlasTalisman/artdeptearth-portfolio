@@ -163,7 +163,11 @@ export default function CaseStudyPanel({
 
               {/* Examples gallery — for non-iframe, non-galleryItems projects */}
               {!project.galleryItems && project.media?.type !== "iframe" && project.examples && project.examples.length > 0 && (
-                <ExamplesGallery images={project.examples} />
+                <ExamplesGallery
+                  images={project.examples}
+                  hoverScale={["allens", "newkind"].includes(project.id) ? 1.15 : undefined}
+                  focalScale={["allens", "newkind"].includes(project.id) ? 2.0 : undefined}
+                />
               )}
 
               {/* Link — hidden for iframe projects (button shown in hero area) */}
