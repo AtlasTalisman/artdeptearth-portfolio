@@ -165,8 +165,8 @@ export default function CaseStudyPanel({
               {!project.galleryItems && project.media?.type !== "iframe" && project.examples && project.examples.length > 0 && (
                 <ExamplesGallery
                   images={project.examples}
-                  hoverScale={["allens", "newkind"].includes(project.id) ? 1.15 : undefined}
-                  focalScale={["allens", "newkind"].includes(project.id) ? 1.6 : undefined}
+                  carousel={["allens", "newkind"].includes(project.id)}
+                  defaultFocalIndex={["allens", "newkind"].includes(project.id) ? 1 : undefined}
                 />
               )}
 

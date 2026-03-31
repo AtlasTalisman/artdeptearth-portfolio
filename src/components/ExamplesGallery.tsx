@@ -10,13 +10,14 @@ interface ExamplesGalleryProps {
   asHero?: boolean;
   hoverScale?: number;
   focalScale?: number;
+  carousel?: boolean;
 }
 
 const PAGE_SIZE_DEFAULT = 3;
 const PAGE_SIZE_HERO = 5;
 const ORIGINS = ["left center", "center", "right center"];
 
-export default function ExamplesGallery({ images, items, defaultFocalIndex, asHero, hoverScale = 1.07, focalScale = 1.22 }: ExamplesGalleryProps) {
+export default function ExamplesGallery({ images, items, defaultFocalIndex, asHero, hoverScale = 1.07, focalScale = 1.22, carousel }: ExamplesGalleryProps) {
   const allItems: GalleryItem[] = items
     ? items
     : (images ?? []).map((src) => ({ src, title: "", tools: "", output: "" }));
@@ -26,7 +27,9 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
 
   const [startIndex, setStartIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [focalIndex, setFocalIndex] = useState<number | null>(defaultFocalIndex ?? null);
+  const [focalIndex, setFocalIndex] = useState<number | null>(
+    carousel ? (defaultFocalIndex ?? 1) : (defaultFocalIndex ?? null)
+  );
 
   const totalPages = Math.ceil(allItems.length / pageSize);
   const currentPage = Math.floor(startIndex / pageSize);
@@ -36,36 +39,52 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
 
   const focalItem = focalIndex !== null ? allItems[focalIndex] : null;
 
+  // Carousel nav
+  const carouselPrev = () => {
+    setFocalIndex((prev) => Math.max(0, (prev ?? 1) - 1));
+  };
+  const carouselNext = () => {
+    setFocalIndex((prev) => Math.min(allItems.length - 1, (prev ?? 1) + 1));
+  };
+
   useEffect(() => {
     if (focalIndex === null) return;
 
     const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
         e.preventDefault();
-        setFocalIndex((prev) => {
-          const next = Math.max(0, (prev ?? 0) - 1);
-          setStartIndex((si) => (next < si ? Math.max(0, next - (next % pageSize)) : si));
-          return next;
-        });
+        if (carousel) {
+          carouselPrev();
+        } else {
+          setFocalIndex((prev) => {
+            const next = Math.max(0, (prev ?? 0) - 1);
+            setStartIndex((si) => (next < si ? Math.max(0, next - (next % pageSize)) : si));
+            return next;
+          });
+        }
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
-        setFocalIndex((prev) => {
-          const next = Math.min(allItems.length - 1, (prev ?? 0) + 1);
-          setStartIndex((si) =>
-            next >= si + pageSize
-              ? Math.min(allItems.length - pageSize, next - pageSize + 1)
-              : si
-          );
-          return next;
-        });
-      } else if (e.key === "Escape") {
+        if (carousel) {
+          carouselNext();
+        } else {
+          setFocalIndex((prev) => {
+            const next = Math.min(allItems.length - 1, (prev ?? 0) + 1);
+            setStartIndex((si) =>
+              next >= si + pageSize
+                ? Math.min(allItems.length - pageSize, next - pageSize + 1)
+                : si
+            );
+            return next;
+          });
+        }
+      } else if (e.key === "Escape" && !carousel) {
         setFocalIndex(null);
       }
     };
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [focalIndex, allItems.length, pageSize]);
+  }, [focalIndex, allItems.length, pageSize, carousel]);
 
   const handlePrev = () => {
     setStartIndex((si) => Math.max(0, si - pageSize));
@@ -93,6 +112,92 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
     setFocalIndex(next);
   };
 
+  // --- CAROUSEL MODE ---
+  if (carousel && focalIndex !== null) {
+    const prevItem = focalIndex > 0 ? allItems[focalIndex - 1] : null;
+    const nextItem = focalIndex < allItems.length - 1 ? allItems[focalIndex + 1] : null;
+    const canCarouselPrev = focalIndex > 0;
+    const canCarouselNext = focalIndex < allItems.length - 1;
+
+    return (
+      <div className="mt-10 pt-6 border-t border-gray-200">
+        <div className="flex items-baseline justify-between mb-4">
+          <p className="section-label">[ Gallery ]</p>
+          <p className="font-mono text-[9px] text-gray-400 uppercase tracking-wider">
+            {focalIndex + 1} / {allItems.length}
+          </p>
+        </div>
+
+        {/* Filmstrip */}
+        <div className="flex items-stretch gap-1.5 w-full overflow-hidden" style={{ height: "260px" }}>
+          {/* Prev slot */}
+          <div
+            className="flex-[1] min-w-0 overflow-hidden bg-gray-100 cursor-pointer"
+            onClick={canCarouselPrev ? carouselPrev : undefined}
+            style={{ opacity: canCarouselPrev ? 0.45 : 0 }}
+          >
+            {prevItem && (
+              <img
+                src={prevItem.src}
+                alt="Previous"
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
+            )}
+          </div>
+
+          {/* Focal slot */}
+          <div className="flex-[3] min-w-0 overflow-hidden bg-gray-100 relative">
+            <img
+              src={allItems[focalIndex].src}
+              alt={`Image ${focalIndex + 1}`}
+              className="w-full h-full object-contain bg-gray-50"
+              draggable={false}
+            />
+          </div>
+
+          {/* Next slot */}
+          <div
+            className="flex-[1] min-w-0 overflow-hidden bg-gray-100 cursor-pointer"
+            onClick={canCarouselNext ? carouselNext : undefined}
+            style={{ opacity: canCarouselNext ? 0.45 : 0 }}
+          >
+            {nextItem && (
+              <img
+                src={nextItem.src}
+                alt="Next"
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="flex items-center justify-between mt-2">
+          <button
+            onClick={carouselPrev}
+            disabled={!canCarouselPrev}
+            className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            ← Prev
+          </button>
+          <span className="font-mono text-[9px] text-gray-400 uppercase tracking-wider">
+            ← → to browse
+          </span>
+          <button
+            onClick={carouselNext}
+            disabled={!canCarouselNext}
+            className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // --- STANDARD / HERO MODE ---
   return (
     <div className={asHero ? "" : "mt-10 pt-6 border-t border-gray-200"}>
       <div className="flex items-baseline justify-between mb-4">
@@ -121,22 +226,22 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
 
             {/* Info panel — only when metadata exists */}
             {hasMetadata && (
-              <div className="w-[40%] shrink-0 bg-white border-l border-black p-5 flex flex-col justify-between">
-                <div>
+              <div className="w-[40%] shrink-0 bg-white border-l border-black p-5 flex flex-col justify-between min-w-0">
+                <div className="min-w-0">
                   <p className="font-mono text-[8px] text-gray-400 uppercase tracking-wider mb-3">
                     {focalIndex + 1} / {allItems.length}
                   </p>
-                  <h3 className="font-black text-[15px] uppercase tracking-tight leading-tight mb-5">
+                  <h3 className="font-black text-[13px] uppercase tracking-tight leading-tight mb-5 break-words overflow-hidden min-w-0">
                     {focalItem.title}
                   </h3>
-                  <div className="space-y-4">
-                    <div>
+                  <div className="space-y-4 min-w-0">
+                    <div className="min-w-0">
                       <p className="font-mono text-[8px] text-gray-400 uppercase tracking-widest mb-1">Tools</p>
-                      <p className="text-[12px] text-gray-800 leading-snug">{focalItem.tools}</p>
+                      <p className="text-[12px] text-gray-800 leading-snug break-words">{focalItem.tools}</p>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="font-mono text-[8px] text-gray-400 uppercase tracking-widest mb-1">Output</p>
-                      <p className="text-[12px] text-gray-800 leading-snug">{focalItem.output}</p>
+                      <p className="text-[12px] text-gray-800 leading-snug break-words">{focalItem.output}</p>
                     </div>
                   </div>
                 </div>
