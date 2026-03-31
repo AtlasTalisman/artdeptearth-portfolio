@@ -10,30 +10,30 @@ interface ExamplesGalleryProps {
   asHero?: boolean;
 }
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE_DEFAULT = 3;
+const PAGE_SIZE_HERO = 5;
 const ORIGINS = ["left center", "center", "right center"];
 
 export default function ExamplesGallery({ images, items, defaultFocalIndex, asHero }: ExamplesGalleryProps) {
-  // Unify to GalleryItem internally
   const allItems: GalleryItem[] = items
     ? items
     : (images ?? []).map((src) => ({ src, title: "", tools: "", output: "" }));
 
   const hasMetadata = !!items;
+  const pageSize = asHero ? PAGE_SIZE_HERO : PAGE_SIZE_DEFAULT;
 
   const [startIndex, setStartIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [focalIndex, setFocalIndex] = useState<number | null>(defaultFocalIndex ?? null);
 
-  const totalPages = Math.ceil(allItems.length / PAGE_SIZE);
-  const currentPage = Math.floor(startIndex / PAGE_SIZE);
+  const totalPages = Math.ceil(allItems.length / pageSize);
+  const currentPage = Math.floor(startIndex / pageSize);
   const canPrev = startIndex > 0;
-  const canNext = startIndex + PAGE_SIZE < allItems.length;
-  const visible = allItems.slice(startIndex, startIndex + PAGE_SIZE);
+  const canNext = startIndex + pageSize < allItems.length;
+  const visible = allItems.slice(startIndex, startIndex + pageSize);
 
   const focalItem = focalIndex !== null ? allItems[focalIndex] : null;
 
-  // Arrow-key scanning when an image is locked
   useEffect(() => {
     if (focalIndex === null) return;
 
@@ -42,7 +42,7 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
         e.preventDefault();
         setFocalIndex((prev) => {
           const next = Math.max(0, (prev ?? 0) - 1);
-          setStartIndex((si) => (next < si ? Math.max(0, next - (next % PAGE_SIZE)) : si));
+          setStartIndex((si) => (next < si ? Math.max(0, next - (next % pageSize)) : si));
           return next;
         });
       } else if (e.key === "ArrowRight") {
@@ -50,8 +50,8 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
         setFocalIndex((prev) => {
           const next = Math.min(allItems.length - 1, (prev ?? 0) + 1);
           setStartIndex((si) =>
-            next >= si + PAGE_SIZE
-              ? Math.min(allItems.length - PAGE_SIZE, next - PAGE_SIZE + 1)
+            next >= si + pageSize
+              ? Math.min(allItems.length - pageSize, next - pageSize + 1)
               : si
           );
           return next;
@@ -63,30 +63,31 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [focalIndex, allItems.length]);
+  }, [focalIndex, allItems.length, pageSize]);
 
   const handlePrev = () => {
-    setStartIndex((si) => Math.max(0, si - PAGE_SIZE));
+    setStartIndex((si) => Math.max(0, si - pageSize));
     setFocalIndex(null);
   };
 
   const handleNext = () => {
-    setStartIndex((si) => Math.min(allItems.length - PAGE_SIZE, si + PAGE_SIZE));
+    setStartIndex((si) => Math.min(allItems.length - pageSize, si + pageSize));
     setFocalIndex(null);
   };
 
   const goDetailPrev = () => {
     if (focalIndex === null) return;
     const next = Math.max(0, focalIndex - 1);
-    if (next < startIndex) setStartIndex(Math.max(0, next - (next % PAGE_SIZE)));
+    setStartIndex((si) => (next < si ? Math.max(0, next - (next % pageSize)) : si));
     setFocalIndex(next);
   };
 
   const goDetailNext = () => {
     if (focalIndex === null) return;
     const next = Math.min(allItems.length - 1, focalIndex + 1);
-    if (next >= startIndex + PAGE_SIZE)
-      setStartIndex(Math.min(allItems.length - PAGE_SIZE, next - PAGE_SIZE + 1));
+    setStartIndex((si) =>
+      next >= si + pageSize ? Math.min(allItems.length - pageSize, next - pageSize + 1) : si
+    );
     setFocalIndex(next);
   };
 
@@ -101,23 +102,23 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
         )}
       </div>
 
-      {/* Detail view — shown when an item with metadata is focused */}
+      {/* Detail view */}
       {hasMetadata && focalItem && focalIndex !== null && (
-        <div className="mb-4">
-          <div className="flex gap-0 border border-black">
-            {/* Image */}
-            <div className="flex-1 min-w-0">
+        <div className="mb-3">
+          <div className="flex border border-black" style={{ minHeight: "220px", maxHeight: "420px" }}>
+            {/* Image — object-contain so full image is always visible */}
+            <div className="flex-1 min-w-0 bg-gray-50 flex items-center justify-center overflow-hidden">
               <img
                 src={focalItem.src}
                 alt={focalItem.title}
-                className="w-full h-full object-cover"
-                style={{ maxHeight: "340px", objectFit: "cover" }}
+                className="max-w-full max-h-full object-contain"
+                style={{ maxHeight: "420px" }}
                 draggable={false}
               />
             </div>
 
             {/* Info panel */}
-            <div className="w-[42%] shrink-0 bg-white border-l border-black p-5 flex flex-col justify-between">
+            <div className="w-[40%] shrink-0 bg-white border-l border-black p-5 flex flex-col justify-between">
               <div>
                 <p className="font-mono text-[8px] text-gray-400 uppercase tracking-wider mb-3">
                   {focalIndex + 1} / {allItems.length}
@@ -146,7 +147,7 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
                 </div>
               </div>
 
-              {/* Navigation */}
+              {/* Navigation — only in detail panel */}
               <div className="flex items-center gap-2 mt-6">
                 <button
                   onClick={goDetailPrev}
@@ -175,9 +176,12 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
         </div>
       )}
 
-      {/* Grid — always visible; thumbnails act as navigation when detail is open */}
-      <div className="py-3 overflow-visible">
-        <div className="grid grid-cols-3 gap-3 overflow-visible">
+      {/* Thumbnail strip */}
+      <div className="py-2 overflow-visible">
+        <div
+          className="overflow-visible"
+          style={{ display: "grid", gridTemplateColumns: `repeat(${pageSize}, 1fr)`, gap: "6px" }}
+        >
           {visible.map((item, i) => {
             const globalIndex = startIndex + i;
             const isFocal = focalIndex === globalIndex;
@@ -218,7 +222,7 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
                   />
                 </div>
 
-                {/* Counter badge — only for non-metadata mode */}
+                {/* Counter badge — non-metadata mode */}
                 {!hasMetadata && isFocal && (
                   <div
                     className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/70 text-white font-mono text-[8px] px-2 py-0.5 tracking-wider whitespace-nowrap pointer-events-none"
@@ -228,7 +232,7 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
                   </div>
                 )}
 
-                {/* Subtle number badge for metadata mode */}
+                {/* Number badge — metadata mode */}
                 {hasMetadata && (
                   <div className="absolute bottom-1 right-1 bg-black/60 text-white font-mono text-[8px] px-1.5 py-0.5 pointer-events-none">
                     {globalIndex + 1}
@@ -238,15 +242,15 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
             );
           })}
 
-          {/* Fill empty slots on last page */}
-          {Array.from({ length: PAGE_SIZE - visible.length }).map((_, i) => (
+          {/* Fill empty slots */}
+          {Array.from({ length: pageSize - visible.length }).map((_, i) => (
             <div key={`empty-${i}`} className="aspect-[4/3] bg-gray-50" />
           ))}
         </div>
       </div>
 
-      {/* Page navigation */}
-      {totalPages > 1 && (
+      {/* Page navigation — only for non-hero mode */}
+      {!asHero && totalPages > 1 && (
         <div className="flex items-center justify-between mt-1">
           <button
             onClick={handlePrev}
