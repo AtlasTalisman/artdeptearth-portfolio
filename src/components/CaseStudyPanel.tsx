@@ -43,8 +43,15 @@ export default function CaseStudyPanel({
               </button>
             </div>
 
-            {/* Media */}
-            <MediaBlock media={project.media} />
+            {/* Media — skip if galleryItems is the primary content */}
+            {!project.galleryItems && <MediaBlock media={project.media} />}
+
+            {/* Gallery as hero — rendered above body content */}
+            {project.galleryItems && project.galleryItems.length > 0 && (
+              <div className="px-8 pt-6 border-b border-gray-200">
+                <ExamplesGallery items={project.galleryItems} defaultFocalIndex={0} asHero />
+              </div>
+            )}
 
             <div className="p-8">
               {/* Header */}
@@ -130,10 +137,7 @@ export default function CaseStudyPanel({
                 </ul>
               </Section>
 
-              {/* Examples gallery */}
-              {project.galleryItems && project.galleryItems.length > 0 && (
-                <ExamplesGallery items={project.galleryItems} />
-              )}
+              {/* Examples gallery — only for projects using plain images[] */}
               {!project.galleryItems && project.examples && project.examples.length > 0 && (
                 <ExamplesGallery images={project.examples} />
               )}

@@ -6,12 +6,14 @@ import { GalleryItem } from "@/data/projects";
 interface ExamplesGalleryProps {
   images?: string[];
   items?: GalleryItem[];
+  defaultFocalIndex?: number;
+  asHero?: boolean;
 }
 
 const PAGE_SIZE = 3;
 const ORIGINS = ["left center", "center", "right center"];
 
-export default function ExamplesGallery({ images, items }: ExamplesGalleryProps) {
+export default function ExamplesGallery({ images, items, defaultFocalIndex, asHero }: ExamplesGalleryProps) {
   // Unify to GalleryItem internally
   const allItems: GalleryItem[] = items
     ? items
@@ -21,7 +23,7 @@ export default function ExamplesGallery({ images, items }: ExamplesGalleryProps)
 
   const [startIndex, setStartIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [focalIndex, setFocalIndex] = useState<number | null>(null);
+  const [focalIndex, setFocalIndex] = useState<number | null>(defaultFocalIndex ?? null);
 
   const totalPages = Math.ceil(allItems.length / PAGE_SIZE);
   const currentPage = Math.floor(startIndex / PAGE_SIZE);
@@ -89,7 +91,7 @@ export default function ExamplesGallery({ images, items }: ExamplesGalleryProps)
   };
 
   return (
-    <div className="mt-10 pt-6 border-t border-gray-200">
+    <div className={asHero ? "" : "mt-10 pt-6 border-t border-gray-200"}>
       <div className="flex items-baseline justify-between mb-4">
         <p className="section-label">[ Gallery ]</p>
         {focalIndex !== null && (
