@@ -31,12 +31,12 @@ const GROUND_EDGE = 0.45;         // half-width of invisible ground plane
 const TILT_SPRING = 0.10;
 const TILT_DAMP   = 0.78;
 
-type Phase = "falling" | "idle" | "knocked";
+type Phase = "falling" | "idle" | "knocked" | "destroyed";
 
 // ══════════════════════════════════════════════════════════════════════════════
 // COMPONENT — zero React state: all updates via refs + direct Three.js calls
 // ══════════════════════════════════════════════════════════════════════════════
-function TrafficCone({ onKnock }: { onKnock?: () => void }) {
+function TrafficCone({ onKnock, heroVisible }: { onKnock?: () => void; heroVisible: React.RefObject<boolean> }) {
   const groupRef = useRef<THREE.Group>(null);
 
   const m = useMemo(() => ({
@@ -100,6 +100,15 @@ function TrafficCone({ onKnock }: { onKnock?: () => void }) {
     const g = groupRef.current;
     if (!g) return;
     const p = phase.current;
+
+    // ── DESTROYED — waiting for hero to scroll back into view ──
+    if (p === "destroyed") {
+      if (heroVisible.current) {
+        resetToCone();
+        g.visible = true;
+      }
+      return;
+    }
 
     // Normalise delta to 60fps equivalent — ensures consistent physics across frame rates
     const dt = Math.min(rawDelta, 0.05) * 60;
@@ -166,9 +175,10 @@ function TrafficCone({ onKnock }: { onKnock?: () => void }) {
         }
       }
 
-      // Off screen below → respawn from top
+      // Off screen below → mark as destroyed, hide cone
       if (py.current < -5) {
-        resetToCone();
+        phase.current = "destroyed";
+        g.visible = false;
       }
 
       // Velocity died before reaching edge → ease back to center, return to idle
@@ -256,8 +266,23 @@ function TrafficCone({ onKnock }: { onKnock?: () => void }) {
 // EXPORTED
 // ══════════════════════════════════════════════════════════════════════════════
 export default function NetworkSculpture({ onKnock }: { onKnock?: () => void }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const heroVisible  = useRef(true);
+
+  // Track whether the hero section (this container) is in the viewport
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { heroVisible.current = entry.isIntersecting; },
+      { threshold: 0.1 }            // 10% visible = "in view"
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative w-full h-full">
+    <div ref={containerRef} className="relative w-full h-full">
       <div className="absolute inset-0">
         <Canvas
           camera={{ position: [0, 0.5, 4.5], fov: 30 }}
@@ -269,7 +294,7 @@ export default function NetworkSculpture({ onKnock }: { onKnock?: () => void }) 
           <directionalLight position={[4, 6, 3]} intensity={1.2} />
           <directionalLight position={[-3, 2, -2]} intensity={0.3} />
           <spotLight position={[0, 5, 5]} angle={0.4} penumbra={0.8} intensity={0.6} />
-          <TrafficCone onKnock={onKnock} />
+          <TrafficCone onKnock={onKnock} heroVisible={heroVisible} />
         </Canvas>
       </div>
     </div>
