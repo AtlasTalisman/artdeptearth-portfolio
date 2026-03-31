@@ -194,7 +194,7 @@ export default function Home() {
         <div className="mb-16">
           <p className="section-label mb-4">[ Selected Works ]</p>
           <h2 className="text-[clamp(28px,4vw,56px)] font-black leading-[1] tracking-[-0.03em] uppercase max-w-3xl">
-            My designs are a roadmap to adventure.
+            Designed to move people.
           </h2>
         </div>
 
@@ -301,9 +301,6 @@ export default function Home() {
 
               <div className="flex items-start gap-4">
                 <div>
-                  <p className="font-mono text-[9px] text-gray-400 uppercase tracking-wider mb-1">
-                    {project.year} — {project.tier === "hero" ? "Hero System" : "Supporting"}
-                  </p>
                   <h3 className="text-lg font-bold tracking-tight group-hover:underline">
                     {project.title}
                   </h3>
