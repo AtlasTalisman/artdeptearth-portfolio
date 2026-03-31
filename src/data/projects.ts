@@ -21,6 +21,7 @@ export interface Project {
   media?: ProjectMedia;
   color: string;
   tier: "hero" | "supporting";
+  examples?: string[]; // optional horizontal strip gallery images
 }
 
 export const projects: Project[] = [
@@ -55,6 +56,11 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-dosomething.png",
     color: "#4ECDC4",
     tier: "hero",
+    examples: [
+      "/images/examples/do-something-art/dsa001.png",
+      "/images/examples/do-something-art/dsa002.png",
+      "/images/examples/do-something-art/dsa003.png",
+    ],
   },
   // ── 02 ──
   {
@@ -126,6 +132,27 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coins-allens.png",
     color: "#FF6B6B",
     tier: "hero",
+    examples: [
+      "/images/examples/allens-lollies/smilemaker00.png",
+      "/images/examples/allens-lollies/smilemaker01.png",
+      "/images/examples/allens-lollies/smilemaker02.png",
+      "/images/examples/allens-lollies/smilemaker03.png",
+      "/images/examples/allens-lollies/smilemaker04.png",
+      "/images/examples/allens-lollies/smilemaker05.png",
+      "/images/examples/allens-lollies/smilemaker06.png",
+      "/images/examples/allens-lollies/smilemaker07.png",
+      "/images/examples/allens-lollies/smilemaker08.png",
+      "/images/examples/allens-lollies/smilemaker09.png",
+      "/images/examples/allens-lollies/smilemaker10.png",
+      "/images/examples/allens-lollies/smilemaker11.png",
+      "/images/examples/allens-lollies/smilemaker12.png",
+      "/images/examples/allens-lollies/smilemaker13.png",
+      "/images/examples/allens-lollies/smilemaker14.png",
+      "/images/examples/allens-lollies/smilemaker15.png",
+      "/images/examples/allens-lollies/smilemaker16.png",
+      "/images/examples/allens-lollies/smilemaker17.png",
+      "/images/examples/allens-lollies/smilemaker18.png",
+    ],
   },
   // ── 04 ──
   {
@@ -158,6 +185,12 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-tsn.png",
     color: "#845EC2",
     tier: "hero",
+    examples: [
+      "/images/examples/spatial-network/spatial-network-00.png",
+      "/images/examples/spatial-network/spatial-network-01.png",
+      "/images/examples/spatial-network/spatial-network-02.png",
+      "/images/examples/spatial-network/spatial-network-03.png",
+    ],
   },
   // ── 05 ──
   {
@@ -436,5 +469,37 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-newkind.png",
     color: "#FFE66D",
     tier: "hero",
+    examples: [
+      "/images/examples/newkind/Nourish Woods.JPG",
+      "/images/examples/newkind/beach-circle-sunrise.JPG",
+      "/images/examples/newkind/beach-circle.JPG",
+      "/images/examples/newkind/beach-fire-circle.jpeg",
+      "/images/examples/newkind/beach-fire.JPG",
+      "/images/examples/newkind/beach-hug.JPG",
+      "/images/examples/newkind/camping.JPG",
+      "/images/examples/newkind/chart.JPG",
+      "/images/examples/newkind/colour-wheels.JPG",
+      "/images/examples/newkind/group-huddle.JPG",
+      "/images/examples/newkind/lunch-line.JPG",
+      "/images/examples/newkind/martialarts001.jpeg",
+      "/images/examples/newkind/martialarts002.JPG",
+      "/images/examples/newkind/nest.JPG",
+      "/images/examples/newkind/onsite-building.JPG",
+      "/images/examples/newkind/onstage.JPG",
+      "/images/examples/newkind/performance001.JPG",
+      "/images/examples/newkind/performance002.JPG",
+      "/images/examples/newkind/performance003.JPG",
+      "/images/examples/newkind/presentation.JPG",
+      "/images/examples/newkind/scouts-gym01.JPG",
+      "/images/examples/newkind/scouts-gym02.JPG",
+      "/images/examples/newkind/site-map.png",
+      "/images/examples/newkind/stage-audience.JPG",
+      "/images/examples/newkind/stage-day.JPG",
+      "/images/examples/newkind/stage-day002.JPG",
+      "/images/examples/newkind/temple.JPG",
+      "/images/examples/newkind/tent-audience.JPG",
+      "/images/examples/newkind/tent-talk.JPG",
+      "/images/examples/newkind/workshop-permaculture.JPG",
+    ],
   },
 ];

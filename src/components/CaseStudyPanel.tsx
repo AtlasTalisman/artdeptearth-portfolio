@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/data/projects";
 import MediaBlock from "@/components/MediaBlock";
+import ExamplesGallery from "@/components/ExamplesGallery";
 
 interface CaseStudyPanelProps {
   project: Project | null;
@@ -112,6 +113,11 @@ export default function CaseStudyPanel({
                   ))}
                 </ul>
               </Section>
+
+              {/* Examples gallery */}
+              {project.examples && project.examples.length > 0 && (
+                <ExamplesGallery images={project.examples} />
+              )}
 
               {/* Link */}
               {project.link && (
