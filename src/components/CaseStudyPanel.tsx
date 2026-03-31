@@ -131,7 +131,10 @@ export default function CaseStudyPanel({
               </Section>
 
               {/* Examples gallery */}
-              {project.examples && project.examples.length > 0 && (
+              {project.galleryItems && project.galleryItems.length > 0 && (
+                <ExamplesGallery items={project.galleryItems} />
+              )}
+              {!project.galleryItems && project.examples && project.examples.length > 0 && (
                 <ExamplesGallery images={project.examples} />
               )}
 

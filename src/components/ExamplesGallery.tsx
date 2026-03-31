@@ -1,26 +1,35 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { GalleryItem } from "@/data/projects";
 
 interface ExamplesGalleryProps {
-  images: string[];
+  images?: string[];
+  items?: GalleryItem[];
 }
 
 const PAGE_SIZE = 3;
-
-// Transform origin per column position so scaled images expand inward
 const ORIGINS = ["left center", "center", "right center"];
 
-export default function ExamplesGallery({ images }: ExamplesGalleryProps) {
+export default function ExamplesGallery({ images, items }: ExamplesGalleryProps) {
+  // Unify to GalleryItem internally
+  const allItems: GalleryItem[] = items
+    ? items
+    : (images ?? []).map((src) => ({ src, title: "", tools: "", output: "" }));
+
+  const hasMetadata = !!items;
+
   const [startIndex, setStartIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [focalIndex, setFocalIndex] = useState<number | null>(null);
 
-  const totalPages = Math.ceil(images.length / PAGE_SIZE);
+  const totalPages = Math.ceil(allItems.length / PAGE_SIZE);
   const currentPage = Math.floor(startIndex / PAGE_SIZE);
   const canPrev = startIndex > 0;
-  const canNext = startIndex + PAGE_SIZE < images.length;
-  const visible = images.slice(startIndex, startIndex + PAGE_SIZE);
+  const canNext = startIndex + PAGE_SIZE < allItems.length;
+  const visible = allItems.slice(startIndex, startIndex + PAGE_SIZE);
+
+  const focalItem = focalIndex !== null ? allItems[focalIndex] : null;
 
   // Arrow-key scanning when an image is locked
   useEffect(() => {
@@ -31,16 +40,16 @@ export default function ExamplesGallery({ images }: ExamplesGalleryProps) {
         e.preventDefault();
         setFocalIndex((prev) => {
           const next = Math.max(0, (prev ?? 0) - 1);
-          setStartIndex((si) => (next < si ? Math.max(0, next) : si));
+          setStartIndex((si) => (next < si ? Math.max(0, next - (next % PAGE_SIZE)) : si));
           return next;
         });
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
         setFocalIndex((prev) => {
-          const next = Math.min(images.length - 1, (prev ?? 0) + 1);
+          const next = Math.min(allItems.length - 1, (prev ?? 0) + 1);
           setStartIndex((si) =>
             next >= si + PAGE_SIZE
-              ? Math.min(images.length - PAGE_SIZE, next - PAGE_SIZE + 1)
+              ? Math.min(allItems.length - PAGE_SIZE, next - PAGE_SIZE + 1)
               : si
           );
           return next;
@@ -52,7 +61,7 @@ export default function ExamplesGallery({ images }: ExamplesGalleryProps) {
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [focalIndex, images.length]);
+  }, [focalIndex, allItems.length]);
 
   const handlePrev = () => {
     setStartIndex((si) => Math.max(0, si - PAGE_SIZE));
@@ -60,8 +69,23 @@ export default function ExamplesGallery({ images }: ExamplesGalleryProps) {
   };
 
   const handleNext = () => {
-    setStartIndex((si) => Math.min(images.length - PAGE_SIZE, si + PAGE_SIZE));
+    setStartIndex((si) => Math.min(allItems.length - PAGE_SIZE, si + PAGE_SIZE));
     setFocalIndex(null);
+  };
+
+  const goDetailPrev = () => {
+    if (focalIndex === null) return;
+    const next = Math.max(0, focalIndex - 1);
+    if (next < startIndex) setStartIndex(Math.max(0, next - (next % PAGE_SIZE)));
+    setFocalIndex(next);
+  };
+
+  const goDetailNext = () => {
+    if (focalIndex === null) return;
+    const next = Math.min(allItems.length - 1, focalIndex + 1);
+    if (next >= startIndex + PAGE_SIZE)
+      setStartIndex(Math.min(allItems.length - PAGE_SIZE, next - PAGE_SIZE + 1));
+    setFocalIndex(next);
   };
 
   return (
@@ -70,15 +94,89 @@ export default function ExamplesGallery({ images }: ExamplesGalleryProps) {
         <p className="section-label">[ Gallery ]</p>
         {focalIndex !== null && (
           <p className="font-mono text-[9px] text-gray-400 uppercase tracking-wider">
-            ← → to scan &nbsp;·&nbsp; esc to close
+            {hasMetadata ? "← → navigate · esc close" : "← → to scan · esc to close"}
           </p>
         )}
       </div>
 
-      {/* Extra padding so scaled images aren't clipped */}
-      <div className="py-6 overflow-visible">
+      {/* Detail view — shown when an item with metadata is focused */}
+      {hasMetadata && focalItem && focalIndex !== null && (
+        <div className="mb-4">
+          <div className="flex gap-0 border border-black">
+            {/* Image */}
+            <div className="flex-1 min-w-0">
+              <img
+                src={focalItem.src}
+                alt={focalItem.title}
+                className="w-full h-full object-cover"
+                style={{ maxHeight: "340px", objectFit: "cover" }}
+                draggable={false}
+              />
+            </div>
+
+            {/* Info panel */}
+            <div className="w-[42%] shrink-0 bg-white border-l border-black p-5 flex flex-col justify-between">
+              <div>
+                <p className="font-mono text-[8px] text-gray-400 uppercase tracking-wider mb-3">
+                  {focalIndex + 1} / {allItems.length}
+                </p>
+                <h3 className="font-black text-[15px] uppercase tracking-tight leading-tight mb-5">
+                  {focalItem.title}
+                </h3>
+
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-mono text-[8px] text-gray-400 uppercase tracking-widest mb-1">
+                      Tools
+                    </p>
+                    <p className="text-[12px] text-gray-800 leading-snug">
+                      {focalItem.tools}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-mono text-[8px] text-gray-400 uppercase tracking-widest mb-1">
+                      Output
+                    </p>
+                    <p className="text-[12px] text-gray-800 leading-snug">
+                      {focalItem.output}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div className="flex items-center gap-2 mt-6">
+                <button
+                  onClick={goDetailPrev}
+                  disabled={focalIndex === 0}
+                  className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed flex-1 text-center"
+                >
+                  ← Prev
+                </button>
+                <button
+                  onClick={goDetailNext}
+                  disabled={focalIndex === allItems.length - 1}
+                  className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed flex-1 text-center"
+                >
+                  Next →
+                </button>
+              </div>
+
+              <button
+                onClick={() => setFocalIndex(null)}
+                className="mt-2 font-mono text-[9px] text-gray-400 uppercase tracking-wider hover:text-black transition-colors text-center"
+              >
+                ✕ close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Grid — always visible; thumbnails act as navigation when detail is open */}
+      <div className="py-3 overflow-visible">
         <div className="grid grid-cols-3 gap-3 overflow-visible">
-          {visible.map((src, i) => {
+          {visible.map((item, i) => {
             const globalIndex = startIndex + i;
             const isFocal = focalIndex === globalIndex;
             const isHovered = hoveredIndex === globalIndex && focalIndex === null;
@@ -95,34 +193,43 @@ export default function ExamplesGallery({ images }: ExamplesGalleryProps) {
                 <div
                   className="aspect-[4/3] overflow-hidden bg-gray-100 transition-transform duration-300"
                   style={{
-                    transform: isFocal
-                      ? "scale(1.22)"
-                      : isHovered
-                      ? "scale(1.07)"
-                      : "scale(1)",
+                    transform:
+                      !hasMetadata && isFocal
+                        ? "scale(1.22)"
+                        : !hasMetadata && isHovered
+                        ? "scale(1.07)"
+                        : "scale(1)",
                     transformOrigin: ORIGINS[i] ?? "center",
                     boxShadow: isFocal
-                      ? "0 12px 40px rgba(0,0,0,0.28)"
+                      ? "0 8px 24px rgba(0,0,0,0.22)"
                       : isHovered
                       ? "0 4px 16px rgba(0,0,0,0.14)"
                       : "none",
+                    outline: hasMetadata && isFocal ? "2px solid black" : "none",
                   }}
                 >
                   <img
-                    src={src}
-                    alt={`Gallery image ${globalIndex + 1}`}
+                    src={item.src}
+                    alt={item.title || `Gallery image ${globalIndex + 1}`}
                     className="w-full h-full object-cover"
                     draggable={false}
                   />
                 </div>
 
-                {/* Image counter badge when focal */}
-                {isFocal && (
+                {/* Counter badge — only for non-metadata mode */}
+                {!hasMetadata && isFocal && (
                   <div
                     className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/70 text-white font-mono text-[8px] px-2 py-0.5 tracking-wider whitespace-nowrap pointer-events-none"
                     style={{ zIndex: 20 }}
                   >
-                    {globalIndex + 1} / {images.length}
+                    {globalIndex + 1} / {allItems.length}
+                  </div>
+                )}
+
+                {/* Subtle number badge for metadata mode */}
+                {hasMetadata && (
+                  <div className="absolute bottom-1 right-1 bg-black/60 text-white font-mono text-[8px] px-1.5 py-0.5 pointer-events-none">
+                    {globalIndex + 1}
                   </div>
                 )}
               </div>

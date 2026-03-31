@@ -1,3 +1,10 @@
+export interface GalleryItem {
+  src: string;
+  title: string;
+  tools: string;
+  output: string;
+}
+
 export type ProjectMedia =
   | { type: "youtube"; videoId: string }
   | { type: "video-grid"; clips: string[]; thumbnail?: string }
@@ -23,6 +30,7 @@ export interface Project {
   color: string;
   tier: "hero" | "supporting";
   examples?: string[]; // optional horizontal strip gallery images
+  galleryItems?: GalleryItem[]; // gallery with per-image metadata
   headerImage?: string; // optional full-width image above System section
   headerImageCaption?: string; // optional caption under headerImage
 }
@@ -418,24 +426,86 @@ export const projects: Project[] = [
       "Creative coding with Processing for generative visuals",
       "Art direction for brand, print, and digital outputs",
     ],
-    media: {
-      type: "slideshow",
-      images: [
-        "/images/Gallery/Danger-DaVinci-poster001.png",
-        "/images/Gallery/DirectingCandyRoyalle.jpg",
-        "/images/Gallery/GWB_Podcast_Square.jpg",
-        "/images/Gallery/HonestBody-poster.png",
-        "/images/Gallery/HowToDestroy.jpg",
-        "/images/Gallery/MaskDesign.jpg",
-        "/images/Gallery/MedicalIcons.jpg",
-        "/images/Gallery/SeaHorscopus.jpg",
-        "/images/Gallery/TheBiographer-Poster.png",
-        "/images/Gallery/Upstream.jpg",
-        "/images/Gallery/ZebraDesign.jpg",
-        "/images/Gallery/seabutterflyBCcolour.jpg",
-        "/images/Gallery/theCloud.jpg",
-      ],
-    },
+    galleryItems: [
+      {
+        src: "/images/gallery/gallery001-seabutterfly-processing.jpg",
+        title: "Sea Butterfly",
+        tools: "Processing",
+        output: "Image for a collaborative series of totem cards",
+      },
+      {
+        src: "/images/gallery/gallery002-SeaHorscopus-Maya-Mudbox.jpg",
+        title: "Seahorsecopus",
+        tools: "Maya, Mudbox, Photoshop",
+        output: "3D model character created as personal art project",
+      },
+      {
+        src: "/images/gallery/gallery003-GQMaskDesign.jpg",
+        title: "GodQueen Logo & T-shirt",
+        tools: "Adobe Illustrator",
+        output: "Mask logo and T-shirt design for GodQueen Records",
+      },
+      {
+        src: "/images/gallery/gallery004-ZebraDesign.jpg",
+        title: "G+B=A Logo & T-shirt",
+        tools: "Adobe Illustrator",
+        output: "Zebra logo and T-shirt design for Girl Plus Boy Equals Art",
+      },
+      {
+        src: "/images/gallery/gallery005-CultureHowCouldYou_CD-Design.png",
+        title: "Culture How Could You Album Art",
+        tools: "Adobe InDesign",
+        output: "Print-ready CD cover for Alice Night",
+      },
+      {
+        src: "/images/gallery/gallery006-Newkind-Poster-5-final-JPEG WEB.jpeg",
+        title: "Newkind Festival Poster",
+        tools: "Hand Illustration, Photoshop",
+        output: "Art drawn by Famous Artist Sebastian Berto, Art Direction by me",
+      },
+      {
+        src: "/images/gallery/gallery007-TheBiographer-Poster.png",
+        title: "The Biographer Poster",
+        tools: "Photoshop",
+        output: "Poster for an Open World Theatre workshop series",
+      },
+      {
+        src: "/images/gallery/gallery008-HonestBody-poster.png",
+        title: "Honest Body Poster",
+        tools: "Hand Illustration, InDesign",
+        output: "Art drawn by Moonassi, poster design by me for an Open World Theatre intensive",
+      },
+      {
+        src: "/images/gallery/gallery009-Danger-DaVinci-poster001.png",
+        title: "Danger DaVinci and the Peculiarity Engine",
+        tools: "AI image generation (Higgsfield - Nano Banana), Canva",
+        output: "Poster for event at Trainscendence",
+      },
+      {
+        src: "/images/gallery/gallery010-GWB_Podcast_Square.jpg",
+        title: "GWB Podcast Branding",
+        tools: "Photoshop",
+        output: "Character created and marketing asset for Games Without Borders podcast",
+      },
+      {
+        src: "/images/gallery/gallery011-MedicalIcons.jpg",
+        title: "Medicare Training App Branding",
+        tools: "Adobe Illustrator",
+        output: "Icons for a Medicare training app, part of a larger build with Creative Direction through PenguinWolf agency",
+      },
+      {
+        src: "/images/gallery/gallery012-Upstream.jpg",
+        title: "Upstream",
+        tools: "Photoshop",
+        output: "Character for a personal art project",
+      },
+      {
+        src: "/images/gallery/gallery013-theCloud.jpg",
+        title: "The Cloud",
+        tools: "Unity (game engine)",
+        output: "Interactive projections for a live performance at Legs On The Wall",
+      },
+    ],
     coinImage: "/images/coins/coin-gallery.png",
     color: "#BB6BD9",
     tier: "supporting",
