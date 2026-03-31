@@ -214,7 +214,7 @@ export default function Home() {
                 {supports3d ? (
                   <div
                     ref={i === 0 ? coinSizeRef : undefined}
-                    className="h-[55%] aspect-square relative group-hover:scale-110 transition-transform duration-300"
+                    className="h-[66%] md:h-[55%] aspect-square relative group-hover:scale-110 transition-transform duration-300"
                     style={{
                       transformStyle: "preserve-3d",
                       animation: `coin-spin ${COIN_DURATIONS[i % COIN_DURATIONS.length]}s linear infinite`,
@@ -281,7 +281,7 @@ export default function Home() {
                   </div>
                 ) : (
                   /* Fallback — simple circular image for browsers without 3D transform support */
-                  <div className="h-[55%] aspect-square group-hover:scale-110 transition-transform duration-300">
+                  <div className="h-[66%] md:h-[55%] aspect-square group-hover:scale-110 transition-transform duration-300">
                     <div
                       className="w-full h-full rounded-full overflow-hidden"
                       style={{

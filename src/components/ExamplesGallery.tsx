@@ -245,9 +245,9 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 mt-6">
-                  <button onClick={goDetailPrev} disabled={focalIndex === 0} className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed flex-1 text-center">← Prev</button>
-                  <button onClick={goDetailNext} disabled={focalIndex === allItems.length - 1} className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed flex-1 text-center">Next →</button>
+                <div className="flex flex-col gap-1 mt-6">
+                  <button onClick={goDetailPrev} disabled={focalIndex === 0} className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed w-full text-center">← Prev</button>
+                  <button onClick={goDetailNext} disabled={focalIndex === allItems.length - 1} className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed w-full text-center">Next →</button>
                 </div>
                 <button onClick={() => setFocalIndex(null)} className="mt-2 font-mono text-[9px] text-gray-400 uppercase tracking-wider hover:text-black transition-colors text-center">✕ close</button>
               </div>
