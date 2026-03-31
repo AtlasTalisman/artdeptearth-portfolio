@@ -179,13 +179,13 @@ function Slideshow({ images }: { images: string[] }) {
   );
 
   return (
-    <div className="w-full aspect-[16/9] bg-gray-50 relative overflow-hidden border-b border-gray-200 group">
+    <div className="w-full aspect-[16/9] bg-white relative overflow-hidden border-b border-gray-200 group">
       {images.map((src, i) => (
         <img
           key={src}
           src={src}
           alt=""
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+          className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-700 ${
             i === current ? "opacity-100" : "opacity-0"
           }`}
         />
