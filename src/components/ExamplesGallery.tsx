@@ -102,77 +102,59 @@ export default function ExamplesGallery({ images, items, defaultFocalIndex, asHe
         )}
       </div>
 
-      {/* Detail view */}
-      {hasMetadata && focalItem && focalIndex !== null && (
+      {/* Detail view — shown when hero + focal, with or without metadata */}
+      {asHero && focalItem && focalIndex !== null && (
         <div className="mb-3">
           <div className="flex border border-black" style={{ minHeight: "220px", maxHeight: "420px" }}>
-            {/* Image — object-contain so full image is always visible */}
+            {/* Image */}
             <div className="flex-1 min-w-0 bg-gray-50 flex items-center justify-center overflow-hidden">
               <img
                 src={focalItem.src}
-                alt={focalItem.title}
+                alt={focalItem.title || `Image ${focalIndex + 1}`}
                 className="max-w-full max-h-full object-contain"
                 style={{ maxHeight: "420px" }}
                 draggable={false}
               />
             </div>
 
-            {/* Info panel */}
-            <div className="w-[40%] shrink-0 bg-white border-l border-black p-5 flex flex-col justify-between">
-              <div>
-                <p className="font-mono text-[8px] text-gray-400 uppercase tracking-wider mb-3">
-                  {focalIndex + 1} / {allItems.length}
-                </p>
-                <h3 className="font-black text-[15px] uppercase tracking-tight leading-tight mb-5">
-                  {focalItem.title}
-                </h3>
-
-                <div className="space-y-4">
-                  <div>
-                    <p className="font-mono text-[8px] text-gray-400 uppercase tracking-widest mb-1">
-                      Tools
-                    </p>
-                    <p className="text-[12px] text-gray-800 leading-snug">
-                      {focalItem.tools}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-mono text-[8px] text-gray-400 uppercase tracking-widest mb-1">
-                      Output
-                    </p>
-                    <p className="text-[12px] text-gray-800 leading-snug">
-                      {focalItem.output}
-                    </p>
+            {/* Info panel — only when metadata exists */}
+            {hasMetadata && (
+              <div className="w-[40%] shrink-0 bg-white border-l border-black p-5 flex flex-col justify-between">
+                <div>
+                  <p className="font-mono text-[8px] text-gray-400 uppercase tracking-wider mb-3">
+                    {focalIndex + 1} / {allItems.length}
+                  </p>
+                  <h3 className="font-black text-[15px] uppercase tracking-tight leading-tight mb-5">
+                    {focalItem.title}
+                  </h3>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="font-mono text-[8px] text-gray-400 uppercase tracking-widest mb-1">Tools</p>
+                      <p className="text-[12px] text-gray-800 leading-snug">{focalItem.tools}</p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-[8px] text-gray-400 uppercase tracking-widest mb-1">Output</p>
+                      <p className="text-[12px] text-gray-800 leading-snug">{focalItem.output}</p>
+                    </div>
                   </div>
                 </div>
+                <div className="flex items-center gap-2 mt-6">
+                  <button onClick={goDetailPrev} disabled={focalIndex === 0} className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed flex-1 text-center">← Prev</button>
+                  <button onClick={goDetailNext} disabled={focalIndex === allItems.length - 1} className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed flex-1 text-center">Next →</button>
+                </div>
+                <button onClick={() => setFocalIndex(null)} className="mt-2 font-mono text-[9px] text-gray-400 uppercase tracking-wider hover:text-black transition-colors text-center">✕ close</button>
               </div>
-
-              {/* Navigation — only in detail panel */}
-              <div className="flex items-center gap-2 mt-6">
-                <button
-                  onClick={goDetailPrev}
-                  disabled={focalIndex === 0}
-                  className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed flex-1 text-center"
-                >
-                  ← Prev
-                </button>
-                <button
-                  onClick={goDetailNext}
-                  disabled={focalIndex === allItems.length - 1}
-                  className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed flex-1 text-center"
-                >
-                  Next →
-                </button>
-              </div>
-
-              <button
-                onClick={() => setFocalIndex(null)}
-                className="mt-2 font-mono text-[9px] text-gray-400 uppercase tracking-wider hover:text-black transition-colors text-center"
-              >
-                ✕ close
-              </button>
-            </div>
+            )}
           </div>
+
+          {/* Nav buttons for no-metadata hero */}
+          {!hasMetadata && (
+            <div className="flex items-center justify-between mt-2">
+              <button onClick={goDetailPrev} disabled={focalIndex === 0} className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed">← Prev</button>
+              <span className="font-mono text-[9px] text-gray-400 uppercase tracking-wider">{focalIndex + 1} / {allItems.length}</span>
+              <button onClick={goDetailNext} disabled={focalIndex === allItems.length - 1} className="label-box text-[10px] disabled:opacity-30 disabled:cursor-not-allowed">Next →</button>
+            </div>
+          )}
         </div>
       )}
 

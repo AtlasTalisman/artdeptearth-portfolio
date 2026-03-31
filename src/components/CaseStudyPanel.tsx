@@ -43,14 +43,38 @@ export default function CaseStudyPanel({
               </button>
             </div>
 
-            {/* Media — skip if galleryItems is the primary content */}
-            {!project.galleryItems && <MediaBlock media={project.media} />}
+            {/* Hero area — three cases */}
 
-            {/* Gallery as hero — rendered above body content */}
+            {/* 1. Gallery items (e.g. Freelance) */}
             {project.galleryItems && project.galleryItems.length > 0 && (
               <div className="px-8 pt-6 border-b border-gray-200">
                 <ExamplesGallery items={project.galleryItems} defaultFocalIndex={0} asHero />
               </div>
+            )}
+
+            {/* 2. Iframe with examples — show examples as hero + visit button, skip blank iframe */}
+            {!project.galleryItems && project.media?.type === "iframe" && project.examples && project.examples.length > 0 && (
+              <div className="px-8 pt-6 border-b border-gray-200">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="section-label">[ Live Project ]</p>
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="label-box text-[10px]"
+                    >
+                      Visit Live Site →
+                    </a>
+                  )}
+                </div>
+                <ExamplesGallery images={project.examples} asHero defaultFocalIndex={0} />
+              </div>
+            )}
+
+            {/* 3. All other media */}
+            {!project.galleryItems && project.media?.type !== "iframe" && (
+              <MediaBlock media={project.media} />
             )}
 
             <div className="p-8">
@@ -137,13 +161,13 @@ export default function CaseStudyPanel({
                 </ul>
               </Section>
 
-              {/* Examples gallery — only for projects using plain images[] */}
-              {!project.galleryItems && project.examples && project.examples.length > 0 && (
+              {/* Examples gallery — for non-iframe, non-galleryItems projects */}
+              {!project.galleryItems && project.media?.type !== "iframe" && project.examples && project.examples.length > 0 && (
                 <ExamplesGallery images={project.examples} />
               )}
 
-              {/* Link */}
-              {project.link && (
+              {/* Link — hidden for iframe projects (button shown in hero area) */}
+              {project.link && project.media?.type !== "iframe" && (
                 <div className="mt-10 pt-6 border-t border-gray-200">
                   <a
                     href={project.link}
