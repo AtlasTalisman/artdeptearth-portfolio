@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
 import GridOverlay from "@/components/GridOverlay";
 import CaseStudyPanel from "@/components/CaseStudyPanel";
@@ -12,6 +12,9 @@ import { projects } from "@/data/projects";
 const COIN_DURATIONS = [3.2, 4.1, 3.7, 4.5, 3.4, 4.8, 3.9, 4.3, 3.6, 5.0, 4.0, 3.5];
 // Negative delays so each coin starts at a different point in its cycle
 const COIN_DELAYS = [-1.1, -0.3, -2.4, -1.8, -0.7, -3.1, -2.0, -0.5, -1.5, -2.8, -0.9, -1.7];
+// Coin depth/rim
+const COIN_THICKNESS = 8;   // px
+const RIM_SEGMENTS   = 32;
 import { annotationPool } from "@/data/annotations";
 
 const NetworkSculpture = dynamic(
@@ -27,6 +30,15 @@ function pickTwo(pool: string[]): [string, string] {
 
 export default function Home() {
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
+  const [coinRadius, setCoinRadius] = useState(0);
+  const coinSizeRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = coinSizeRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => setCoinRadius(entry.contentRect.width / 2));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [annotations, setAnnotations] = useState<[string, string]>(["", ""]);
@@ -194,6 +206,7 @@ export default function Home() {
                 style={{ perspective: "800px" }}
               >
                 <div
+                  ref={i === 0 ? coinSizeRef : undefined}
                   className="h-[55%] aspect-square relative group-hover:scale-110 transition-transform duration-300"
                   style={{
                     transformStyle: "preserve-3d",
@@ -201,13 +214,14 @@ export default function Home() {
                     animationDelay: `${COIN_DELAYS[i % COIN_DELAYS.length]}s`,
                   }}
                 >
-                  {/* Front face */}
+                  {/* Front face — offset forward by half-thickness */}
                   <div
                     className="absolute inset-0 rounded-full overflow-hidden"
                     style={{
                       backfaceVisibility: "hidden",
-                      boxShadow:
-                        "inset 0 3px 6px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.25), 0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
+                      transform: `translateZ(${COIN_THICKNESS / 2}px)`,
+                      background: "#a89260",
+                      boxShadow: "0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
                     }}
                   >
                     <img
@@ -215,24 +229,15 @@ export default function Home() {
                       alt={project.title}
                       className="w-full h-full object-cover"
                     />
-                    {/* Bevel rim highlight */}
-                    <div
-                      className="absolute inset-0 rounded-full pointer-events-none"
-                      style={{
-                        boxShadow:
-                          "inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(0,0,0,0.3)",
-                        border: "1.5px solid rgba(0,0,0,0.12)",
-                      }}
-                    />
                   </div>
-                  {/* Back face */}
+                  {/* Back face — flip then offset forward (= backward in world) */}
                   <div
                     className="absolute inset-0 rounded-full overflow-hidden"
                     style={{
                       backfaceVisibility: "hidden",
-                      transform: "rotateY(180deg)",
-                      boxShadow:
-                        "inset 0 3px 6px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.25), 0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
+                      transform: `rotateY(180deg) translateZ(${COIN_THICKNESS / 2}px)`,
+                      background: "#a89260",
+                      boxShadow: "0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
                     }}
                   >
                     <img
@@ -240,15 +245,32 @@ export default function Home() {
                       alt="Click to view"
                       className="w-full h-full object-cover"
                     />
-                    <div
-                      className="absolute inset-0 rounded-full pointer-events-none"
-                      style={{
-                        boxShadow:
-                          "inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(0,0,0,0.3)",
-                        border: "1.5px solid rgba(0,0,0,0.12)",
-                      }}
-                    />
                   </div>
+                  {/* Rim — 32 strips forming a cylinder around the coin edge */}
+                  {coinRadius > 0 && Array.from({ length: RIM_SEGMENTS }).map((_, s) => {
+                    const θ    = (s / RIM_SEGMENTS) * 2 * Math.PI;
+                    const cosA = Math.cos(θ);
+                    const sinA = Math.sin(θ);
+                    const segW = 2 * coinRadius * Math.sin(Math.PI / RIM_SEGMENTS);
+                    return (
+                      <div
+                        key={s}
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          width: `${segW}px`,
+                          height: `${COIN_THICKNESS}px`,
+                          marginTop: `${-COIN_THICKNESS / 2}px`,
+                          marginLeft: `${-segW / 2}px`,
+                          background:
+                            "linear-gradient(to bottom, #c4ac72 0%, #a89260 40%, #8a7448 70%, #b09a68 100%)",
+                          transform: `matrix3d(${cosA},${sinA},0,0, 0,0,1,0, ${sinA},${-cosA},0,0, ${coinRadius * sinA},${-coinRadius * cosA},0,1)`,
+                          backfaceVisibility: "hidden",
+                        }}
+                      />
+                    );
+                  })}
                 </div>
               </div>
 
