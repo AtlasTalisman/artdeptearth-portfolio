@@ -18,7 +18,7 @@ export default function MediaBlock({ media }: { media?: ProjectMedia }) {
     case "video-grid":
       return <VideoGrid clips={media.clips} />;
     case "video-grid-gallery":
-      return <VideoGridGallery clips={media.clips} />;
+      return <VideoGridGallery pages={media.pages} />;
     case "slideshow":
       return <Slideshow images={media.images} />;
     case "iframe":
@@ -59,34 +59,24 @@ function VideoGrid({ clips }: { clips: string[] }) {
   );
 }
 
-const GRID_PAGE = 4;
 const isVideo = (src: string) => /\.(mp4|webm|mov)$/i.test(src);
 
-function VideoGridGallery({ clips }: { clips: string[] }) {
+function VideoGridGallery({ pages }: { pages: Array<{ label: string; clips: string[] }> }) {
   const [page, setPage] = useState(0);
-  const totalPages = Math.ceil(clips.length / GRID_PAGE);
-  const visible = clips.slice(page * GRID_PAGE, page * GRID_PAGE + GRID_PAGE);
+  const totalPages = pages.length;
+  const { label, clips } = pages[page];
   const canPrev = page > 0;
   const canNext = page < totalPages - 1;
-
-  // Re-key videos on page change so they restart
   const pageKey = `page-${page}`;
 
   return (
     <div className="w-full border-b border-gray-200 relative group">
       {/* 2×2 grid */}
       <div className="grid grid-cols-2 gap-px bg-black">
-        {visible.map((src, i) => (
+        {clips.map((src, i) => (
           <div key={`${pageKey}-${i}`} className="aspect-square bg-black overflow-hidden">
             {isVideo(src) ? (
-              <video
-                src={src}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              />
+              <video src={src} autoPlay muted loop playsInline className="w-full h-full object-cover" />
             ) : (
               <img src={src} alt="" className="w-full h-full object-cover" />
             )}
@@ -94,25 +84,30 @@ function VideoGridGallery({ clips }: { clips: string[] }) {
         ))}
       </div>
 
+      {/* Grid label — black bar anchored to bottom-right */}
+      <div className="absolute bottom-0 right-0 bg-black px-3 py-1.5 z-10 pointer-events-none">
+        <span className="font-mono text-[10px] text-white uppercase tracking-[0.12em]">
+          {label}
+        </span>
+      </div>
+
       {/* Left arrow */}
       {canPrev && (
         <button
           onClick={() => setPage((p) => p - 1)}
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-black/60 text-white text-sm hover:bg-black transition-colors z-10 opacity-0 group-hover:opacity-100"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-black/60 text-white text-sm hover:bg-black transition-colors z-20 opacity-0 group-hover:opacity-100"
           aria-label="Previous page"
         >
           ←
         </button>
       )}
 
-      {/* Right arrow — bounces on page 0 to signal more; hover-only after */}
+      {/* Right arrow — bounces on page 0; hover-only after */}
       {canNext && (
         <button
           onClick={() => setPage((p) => p + 1)}
-          className={`absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-black/60 text-white text-sm hover:bg-black transition-colors z-10 ${
-            page === 0
-              ? "opacity-100 animate-bounce"
-              : "opacity-0 group-hover:opacity-100"
+          className={`absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-black/60 text-white text-sm hover:bg-black transition-colors z-20 ${
+            page === 0 ? "opacity-100 animate-bounce" : "opacity-0 group-hover:opacity-100"
           }`}
           aria-label="Next page"
         >
@@ -122,7 +117,7 @@ function VideoGridGallery({ clips }: { clips: string[] }) {
 
       {/* Page dots */}
       {totalPages > 1 && (
-        <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
           {Array.from({ length: totalPages }).map((_, i) => (
             <button
               key={i}
@@ -136,8 +131,8 @@ function VideoGridGallery({ clips }: { clips: string[] }) {
         </div>
       )}
 
-      {/* Page counter */}
-      <div className="absolute top-2 right-2 font-mono text-[9px] text-white/60 tracking-wider pointer-events-none">
+      {/* Page counter top-right */}
+      <div className="absolute top-2 left-3 font-mono text-[9px] text-white/60 tracking-wider pointer-events-none">
         {page + 1} / {totalPages}
       </div>
     </div>

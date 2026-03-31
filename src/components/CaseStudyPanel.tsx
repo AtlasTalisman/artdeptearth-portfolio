@@ -60,6 +60,22 @@ export default function CaseStudyPanel({
                 </p>
               </div>
 
+              {/* Header image (optional) */}
+              {project.headerImage && (
+                <div className="mb-10">
+                  <img
+                    src={project.headerImage}
+                    alt={project.title}
+                    className="w-full object-cover"
+                  />
+                  {project.headerImageCaption && (
+                    <p className="font-mono text-[11px] text-gray-500 leading-[1.8] mt-4 whitespace-pre-line">
+                      {project.headerImageCaption}
+                    </p>
+                  )}
+                </div>
+              )}
+
               {/* System */}
               <Section title="System">
                 <p className="text-[14px] text-gray-700 leading-[1.8]">

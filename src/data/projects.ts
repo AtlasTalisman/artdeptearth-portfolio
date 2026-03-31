@@ -1,7 +1,7 @@
 export type ProjectMedia =
   | { type: "youtube"; videoId: string }
   | { type: "video-grid"; clips: string[]; thumbnail?: string }
-  | { type: "video-grid-gallery"; clips: string[] }
+  | { type: "video-grid-gallery"; pages: Array<{ label: string; clips: string[] }> }
   | { type: "slideshow"; images: string[] }
   | { type: "iframe"; url: string };
 
@@ -23,6 +23,8 @@ export interface Project {
   color: string;
   tier: "hero" | "supporting";
   examples?: string[]; // optional horizontal strip gallery images
+  headerImage?: string; // optional full-width image above System section
+  headerImageCaption?: string; // optional caption under headerImage
 }
 
 export const projects: Project[] = [
@@ -91,39 +93,74 @@ export const projects: Project[] = [
     ],
     media: {
       type: "video-grid-gallery",
-      clips: [
-        // ── Featured first page ──
-        "/images/ocm/carriages/carriage_banana.mp4",
-        "/images/ocm/gacha-gacha/gacha-mint.mp4",
-        "/images/ocm/spray-cans/spraycan-coffee.mp4",
-        "/images/ocm/spray-guns/spraygun_celestial_soldman.mp4",
-        // ── Carriages ──
-        "/images/ocm/carriages/carriage_crown.mp4",
-        "/images/ocm/carriages/carriage_crystal.mp4",
-        "/images/ocm/carriages/carriage_lasereyes.mp4",
-        // ── Gacha ──
-        "/images/ocm/gacha-gacha/gacha-creamsoda.mp4",
-        "/images/ocm/gacha-gacha/gacha-orange.mp4",
-        "/images/ocm/gacha-gacha/gacha-river.mp4",
-        // ── Spray cans ──
-        "/images/ocm/spray-cans/spraycan-alien.mp4",
-        "/images/ocm/spray-cans/spraycan-cheetah.mp4",
-        "/images/ocm/spray-cans/spraycan-cinnamon.mp4",
-        "/images/ocm/spray-cans/spraycan-kintsugi-porcelain.mp4",
-        "/images/ocm/spray-cans/spraycan-robot.mp4",
-        "/images/ocm/spray-cans/spraycan-wood.mp4",
-        "/images/ocm/spray-cans/spraycan-zombie.mp4",
-        // ── Spray guns ──
-        "/images/ocm/spray-guns/spraygun_celestial_cog.mp4",
-        "/images/ocm/spray-guns/spraygun_celestial_fire.mp4",
-        "/images/ocm/spray-guns/spraygun_celestial_water.mp4",
-        // ── Lunch boxes (images) ──
-        "/images/ocm/lunch-boxes/Box_v01.jpg",
-        "/images/ocm/lunch-boxes/Box_v04.jpg",
-        "/images/ocm/lunch-boxes/Box_v05.jpg",
-        "/images/ocm/lunch-boxes/Box_v06.jpg",
+      pages: [
+        {
+          label: "OCM Assets",
+          clips: [
+            "/images/ocm/carriages/carriage_banana.mp4",
+            "/images/ocm/gacha-gacha/gacha-mint.mp4",
+            "/images/ocm/spray-cans/spraycan-coffee.mp4",
+            "/images/ocm/spray-guns/spraygun_celestial_soldman.mp4",
+          ],
+        },
+        {
+          label: "Gacha Gacha",
+          clips: [
+            "/images/ocm/gacha-gacha/gacha-creamsoda.mp4",
+            "/images/ocm/gacha-gacha/gacha-mint.mp4",
+            "/images/ocm/gacha-gacha/gacha-orange.mp4",
+            "/images/ocm/gacha-gacha/gacha-river.mp4",
+          ],
+        },
+        {
+          label: "Spray Cans",
+          clips: [
+            "/images/ocm/spray-cans/spraycan-alien.mp4",
+            "/images/ocm/spray-cans/spraycan-cheetah.mp4",
+            "/images/ocm/spray-cans/spraycan-cinnamon.mp4",
+            "/images/ocm/spray-cans/spraycan-coffee.mp4",
+          ],
+        },
+        {
+          label: "Spray Cans",
+          clips: [
+            "/images/ocm/spray-cans/spraycan-kintsugi-porcelain.mp4",
+            "/images/ocm/spray-cans/spraycan-robot.mp4",
+            "/images/ocm/spray-cans/spraycan-wood.mp4",
+            "/images/ocm/spray-cans/spraycan-zombie.mp4",
+          ],
+        },
+        {
+          label: "Spray Guns",
+          clips: [
+            "/images/ocm/spray-guns/spraygun_celestial_cog.mp4",
+            "/images/ocm/spray-guns/spraygun_celestial_fire.mp4",
+            "/images/ocm/spray-guns/spraygun_celestial_soldman.mp4",
+            "/images/ocm/spray-guns/spraygun_celestial_water.mp4",
+          ],
+        },
+        {
+          label: "Lunch Boxes",
+          clips: [
+            "/images/ocm/lunch-boxes/Box_v01.jpg",
+            "/images/ocm/lunch-boxes/Box_v04.jpg",
+            "/images/ocm/lunch-boxes/Box_v05.jpg",
+            "/images/ocm/lunch-boxes/Box_v06.jpg",
+          ],
+        },
+        {
+          label: "Train Carriages",
+          clips: [
+            "/images/ocm/carriages/carriage_banana.mp4",
+            "/images/ocm/carriages/carriage_crown.mp4",
+            "/images/ocm/carriages/carriage_crystal.mp4",
+            "/images/ocm/carriages/carriage_lasereyes.mp4",
+          ],
+        },
       ],
     },
+    headerImage: "/images/ocm/monkeys-cans.png",
+    headerImageCaption: "A series of assets were created in correlation to characters in the OnChainMonkey NFT series.\n\nEvery character got a themed spray can and a lunch box to collect their assets. There were additional pieces to collect/win in the form of gacha balls, spray guns and train carriages, which connected to the meta narrative we wrote to encompass other IP/franchises too.",
     coinImage: "/images/coins/coins-ocm.png",
     color: "#FF9A76",
     tier: "hero",
