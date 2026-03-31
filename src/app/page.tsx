@@ -158,7 +158,7 @@ export default function Home() {
           <p className="font-mono text-[10px] leading-[1.7] text-gray-600">
             I&apos;m Atlas Talisman. I design interactive systems that drive
             audience participation — from national brand activations to
-            RFID-powered festival games to spatial web platforms. 20+ years
+            NFC-powered festival games to spatial web platforms. 20+ years
             across digital, physical, and immersive.
           </p>
           <div className="flex gap-2 mt-3">
@@ -186,9 +186,7 @@ export default function Home() {
         <div className="mb-16">
           <p className="section-label mb-4">[ Selected Works ]</p>
           <h2 className="text-[clamp(28px,4vw,56px)] font-black leading-[1] tracking-[-0.03em] uppercase max-w-3xl">
-            I design systems that
-            <br />
-            change how people behave.
+            My designs are a roadmap to adventure.
           </h2>
         </div>
 
@@ -274,7 +272,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-4">
                 <div>
                   <p className="font-mono text-[9px] text-gray-400 uppercase tracking-wider mb-1">
                     {project.year} — {project.tier === "hero" ? "Hero System" : "Supporting"}
@@ -286,9 +284,6 @@ export default function Home() {
                     {project.role}
                   </p>
                 </div>
-                <span className="font-mono text-[10px] text-gray-300 group-hover:text-black transition-colors mt-1">
-                  [{String(i + 1).padStart(2, "0")}]
-                </span>
               </div>
 
               <p className="text-[13px] text-gray-600 leading-relaxed mt-4 line-clamp-2">
