@@ -166,7 +166,7 @@ export default function CaseStudyPanel({
                 <ExamplesGallery
                   images={project.examples}
                   hoverScale={["allens", "newkind"].includes(project.id) ? 1.15 : undefined}
-                  focalScale={["allens", "newkind"].includes(project.id) ? 2.0 : undefined}
+                  focalScale={["allens", "newkind"].includes(project.id) ? 1.6 : undefined}
                 />
               )}
 
