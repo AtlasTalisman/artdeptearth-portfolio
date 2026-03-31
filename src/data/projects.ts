@@ -1,6 +1,7 @@
 export type ProjectMedia =
   | { type: "youtube"; videoId: string }
   | { type: "video-grid"; clips: string[]; thumbnail?: string }
+  | { type: "video-grid-gallery"; clips: string[] }
   | { type: "slideshow"; images: string[] }
   | { type: "iframe"; url: string };
 
@@ -89,14 +90,39 @@ export const projects: Project[] = [
       "Managed marketing, communications, and community growth",
     ],
     media: {
-      type: "video-grid",
+      type: "video-grid-gallery",
       clips: [
-        "/videos/ocm/gacha-mint.mp4",
-        "/videos/ocm/spraycan-alien.mp4",
-        "/videos/ocm/carriage_crown.mp4",
-        "/videos/ocm/spraygun_teaser.mp4",
+        // ── Featured first page ──
+        "/images/ocm/carriages/carriage_banana.mp4",
+        "/images/ocm/gacha-gacha/gacha-mint.mp4",
+        "/images/ocm/spray-cans/spraycan-coffee.mp4",
+        "/images/ocm/spray-guns/spraygun_celestial_soldman.mp4",
+        // ── Carriages ──
+        "/images/ocm/carriages/carriage_crown.mp4",
+        "/images/ocm/carriages/carriage_crystal.mp4",
+        "/images/ocm/carriages/carriage_lasereyes.mp4",
+        // ── Gacha ──
+        "/images/ocm/gacha-gacha/gacha-creamsoda.mp4",
+        "/images/ocm/gacha-gacha/gacha-orange.mp4",
+        "/images/ocm/gacha-gacha/gacha-river.mp4",
+        // ── Spray cans ──
+        "/images/ocm/spray-cans/spraycan-alien.mp4",
+        "/images/ocm/spray-cans/spraycan-cheetah.mp4",
+        "/images/ocm/spray-cans/spraycan-cinnamon.mp4",
+        "/images/ocm/spray-cans/spraycan-kintsugi-porcelain.mp4",
+        "/images/ocm/spray-cans/spraycan-robot.mp4",
+        "/images/ocm/spray-cans/spraycan-wood.mp4",
+        "/images/ocm/spray-cans/spraycan-zombie.mp4",
+        // ── Spray guns ──
+        "/images/ocm/spray-guns/spraygun_celestial_cog.mp4",
+        "/images/ocm/spray-guns/spraygun_celestial_fire.mp4",
+        "/images/ocm/spray-guns/spraygun_celestial_water.mp4",
+        // ── Lunch boxes (images) ──
+        "/images/ocm/lunch-boxes/Box_v01.jpg",
+        "/images/ocm/lunch-boxes/Box_v04.jpg",
+        "/images/ocm/lunch-boxes/Box_v05.jpg",
+        "/images/ocm/lunch-boxes/Box_v06.jpg",
       ],
-      thumbnail: "/images/ocm/thumbnail.png",
     },
     coinImage: "/images/coins/coins-ocm.png",
     color: "#FF9A76",
