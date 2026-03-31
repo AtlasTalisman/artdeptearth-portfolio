@@ -39,6 +39,14 @@ export default function Home() {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+  const [supports3d, setSupports3d] = useState(true);
+  useEffect(() => {
+    try {
+      setSupports3d(CSS.supports("transform-style", "preserve-3d"));
+    } catch {
+      setSupports3d(false);
+    }
+  }, []);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [annotations, setAnnotations] = useState<[string, string]>(["", ""]);
@@ -198,78 +206,97 @@ export default function Home() {
               onClick={() => setActiveProjectId(project.id)}
               className="bg-white p-8 text-left group hover:bg-gray-50 transition-colors cursor-pointer"
             >
-              {/* Rotating coin */}
+              {/* Coin display — 3D spinning coin with static fallback */}
               <div
                 className="w-full aspect-[16/10] mb-6 flex items-center justify-center"
-                style={{ perspective: "800px" }}
+                style={supports3d ? { perspective: "800px" } : undefined}
               >
-                <div
-                  ref={i === 0 ? coinSizeRef : undefined}
-                  className="h-[55%] aspect-square relative group-hover:scale-110 transition-transform duration-300"
-                  style={{
-                    transformStyle: "preserve-3d",
-                    animation: `coin-spin ${COIN_DURATIONS[i % COIN_DURATIONS.length]}s linear infinite`,
-                    animationDelay: `${COIN_DELAYS[i % COIN_DELAYS.length]}s`,
-                  }}
-                >
-                  {/* Front face — offset forward by half-thickness */}
+                {supports3d ? (
                   <div
-                    className="absolute inset-0 rounded-full overflow-hidden"
+                    ref={i === 0 ? coinSizeRef : undefined}
+                    className="h-[55%] aspect-square relative group-hover:scale-110 transition-transform duration-300"
                     style={{
-                      backfaceVisibility: "hidden",
-                      transform: `translateZ(${COIN_THICKNESS / 2}px)`,
-                      background: "#a89260",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
+                      transformStyle: "preserve-3d",
+                      animation: `coin-spin ${COIN_DURATIONS[i % COIN_DURATIONS.length]}s linear infinite`,
+                      animationDelay: `${COIN_DELAYS[i % COIN_DELAYS.length]}s`,
                     }}
                   >
-                    <img
-                      src={project.coinImage}
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  {/* Back face — flip then offset forward (= backward in world) */}
-                  <div
-                    className="absolute inset-0 rounded-full overflow-hidden"
-                    style={{
-                      backfaceVisibility: "hidden",
-                      transform: `rotateY(180deg) translateZ(${COIN_THICKNESS / 2}px)`,
-                      background: "#a89260",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
-                    }}
-                  >
-                    <img
-                      src="/images/coins/coin-click.png"
-                      alt="Click to view"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  {/* Rim — 32 strips forming a cylinder around the coin edge */}
-                  {coinRadius > 0 && Array.from({ length: RIM_SEGMENTS }).map((_, s) => {
-                    const θ    = (s / RIM_SEGMENTS) * 2 * Math.PI;
-                    const cosA = Math.cos(θ);
-                    const sinA = Math.sin(θ);
-                    const segW = 2 * coinRadius * Math.sin(Math.PI / RIM_SEGMENTS);
-                    return (
-                      <div
-                        key={s}
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          width: `${segW}px`,
-                          height: `${COIN_THICKNESS}px`,
-                          marginTop: `${-COIN_THICKNESS / 2}px`,
-                          marginLeft: `${-segW / 2}px`,
-                          background:
-                            "linear-gradient(to bottom, #c4ac72 0%, #a89260 40%, #8a7448 70%, #b09a68 100%)",
-                          transform: `matrix3d(${cosA},${sinA},0,0, 0,0,1,0, ${sinA},${-cosA},0,0, ${coinRadius * sinA},${-coinRadius * cosA},0,1)`,
-                          backfaceVisibility: "hidden",
-                        }}
+                    {/* Front face */}
+                    <div
+                      className="absolute inset-0 rounded-full overflow-hidden"
+                      style={{
+                        backfaceVisibility: "hidden",
+                        transform: `translateZ(${COIN_THICKNESS / 2}px)`,
+                        background: "#a89260",
+                        boxShadow: "0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
+                      }}
+                    >
+                      <img
+                        src={project.coinImage}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
                       />
-                    );
-                  })}
-                </div>
+                    </div>
+                    {/* Back face */}
+                    <div
+                      className="absolute inset-0 rounded-full overflow-hidden"
+                      style={{
+                        backfaceVisibility: "hidden",
+                        transform: `rotateY(180deg) translateZ(${COIN_THICKNESS / 2}px)`,
+                        background: "#a89260",
+                        boxShadow: "0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
+                      }}
+                    >
+                      <img
+                        src="/images/coins/coin-click.png"
+                        alt="Click to view"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    {/* Rim — 32 strips forming a cylinder */}
+                    {coinRadius > 0 && Array.from({ length: RIM_SEGMENTS }).map((_, s) => {
+                      const θ    = (s / RIM_SEGMENTS) * 2 * Math.PI;
+                      const cosA = Math.cos(θ);
+                      const sinA = Math.sin(θ);
+                      const segW = 2 * coinRadius * Math.sin(Math.PI / RIM_SEGMENTS);
+                      return (
+                        <div
+                          key={s}
+                          style={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            width: `${segW}px`,
+                            height: `${COIN_THICKNESS}px`,
+                            marginTop: `${-COIN_THICKNESS / 2}px`,
+                            marginLeft: `${-segW / 2}px`,
+                            background:
+                              "linear-gradient(to bottom, #c4ac72 0%, #a89260 40%, #8a7448 70%, #b09a68 100%)",
+                            transform: `matrix3d(${cosA},${sinA},0,0, 0,0,1,0, ${sinA},${-cosA},0,0, ${coinRadius * sinA},${-coinRadius * cosA},0,1)`,
+                            backfaceVisibility: "hidden",
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                ) : (
+                  /* Fallback — simple circular image for browsers without 3D transform support */
+                  <div className="h-[55%] aspect-square group-hover:scale-110 transition-transform duration-300">
+                    <div
+                      className="w-full h-full rounded-full overflow-hidden"
+                      style={{
+                        background: "#a89260",
+                        boxShadow: "0 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.12)",
+                      }}
+                    >
+                      <img
+                        src={project.coinImage}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-start gap-4">

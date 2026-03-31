@@ -58,37 +58,6 @@ export const projects: Project[] = [
   },
   // ── 02 ──
   {
-    id: "allens",
-    title: "Allen's Lollies National Tour",
-    role: "Creative Director / Experience Designer",
-    year: "2014",
-    system:
-      "Co-designed a national brand activation that converted passive audiences into active participants through playful street-level engagement mechanics.",
-    mechanic:
-      "Members of the public were invited into interactive play spaces — dancing, sharing balloons with strangers, exchanging hi-fives, receiving flowers — each interaction captured and measured as a brand engagement.",
-    interaction: [
-      "Street-level activations across Australia and New Zealand",
-      "Interactive play spaces inviting spontaneous public participation",
-      "Multiple engagement mechanics testing what makes people smile",
-      "Real-time participation capture and measurement",
-    ],
-    outcome: [
-      "Generated 900,000+ brand interactions across the national tour",
-      "Validated multiple engagement mechanics at scale",
-      "Delivered measurable consumer response metrics for Nestlé",
-    ],
-    build: [
-      "Designed participation mechanics and activation formats",
-      "Managed creative production across multiple tour locations",
-      "Developed measurement framework for interaction quality",
-    ],
-    media: { type: "youtube", videoId: "A9Wpkzn7PMI" },
-    coinImage: "/images/coins/coins-allens.png",
-    color: "#FF6B6B",
-    tier: "hero",
-  },
-  // ── 03 ──
-  {
     id: "ocm",
     title: "OnChain Monkey / Metaplanet",
     role: "Art Director / Creative Manager",
@@ -125,6 +94,37 @@ export const projects: Project[] = [
     },
     coinImage: "/images/coins/coins-ocm.png",
     color: "#FF9A76",
+    tier: "hero",
+  },
+  // ── 03 ──
+  {
+    id: "allens",
+    title: "Allen's Lollies National Tour",
+    role: "Creative Director / Experience Designer",
+    year: "2014",
+    system:
+      "Co-designed a national brand activation that converted passive audiences into active participants through playful street-level engagement mechanics.",
+    mechanic:
+      "Members of the public were invited into interactive play spaces — dancing, sharing balloons with strangers, exchanging hi-fives, receiving flowers — each interaction captured and measured as a brand engagement.",
+    interaction: [
+      "Street-level activations across Australia and New Zealand",
+      "Interactive play spaces inviting spontaneous public participation",
+      "Multiple engagement mechanics testing what makes people smile",
+      "Real-time participation capture and measurement",
+    ],
+    outcome: [
+      "Generated 900,000+ brand interactions across the national tour",
+      "Validated multiple engagement mechanics at scale",
+      "Delivered measurable consumer response metrics for Nestlé",
+    ],
+    build: [
+      "Designed participation mechanics and activation formats",
+      "Managed creative production across multiple tour locations",
+      "Developed measurement framework for interaction quality",
+    ],
+    media: { type: "youtube", videoId: "A9Wpkzn7PMI" },
+    coinImage: "/images/coins/coins-allens.png",
+    color: "#FF6B6B",
     tier: "hero",
   },
   // ── 04 ──
@@ -300,68 +300,6 @@ export const projects: Project[] = [
   },
   // ── 09 ──
   {
-    id: "tourism-australia",
-    title: "Tourism Australia",
-    role: "Script Writer / Voice-Over Artist",
-    year: "2015",
-    system:
-      "Collaborated on a Tourism Australia promotional campaign as the script writer and voice-over artist, shaping how Australia was presented to international audiences through narrative and performance.",
-    mechanic:
-      "Penned the campaign script to align with Tourism Australia's destination messaging strategy, then recorded the voice-over narration for the final broadcast advertisement.",
-    interaction: [
-      "Script writing and narrative development for broadcast",
-      "Voice-over recording and performance delivery",
-      "Collaboration with production team on messaging and tone",
-      "Campaign copy aligned to destination marketing objectives",
-    ],
-    outcome: [
-      "Delivered campaign script and voice-over for a Tourism Australia broadcast ad",
-      "Contributed to a national destination marketing campaign",
-      "Demonstrated copywriting and on-mic performance capability at campaign scale",
-    ],
-    build: [
-      "Wrote the campaign script",
-      "Recorded and delivered voice-over narration",
-      "Collaborated with creative team on messaging and tone",
-    ],
-    media: { type: "youtube", videoId: "l0cG-uib2-Y" },
-    coinImage: "/images/coins/coin-bechanged.png",
-    color: "#2D9CDB",
-    tier: "supporting",
-  },
-  // ── 10 ──
-  {
-    id: "newkind",
-    title: "Newkind Festival ARG",
-    role: "Co-Founder / Creative Director",
-    year: "2016–2017",
-    system:
-      "Co-founded a festival and designed an alternate reality game that gamified attendee participation across workshops, talks, and site experiences using physical-digital hybrid mechanics.",
-    mechanic:
-      "Attendees tapped RFID tags at workshops and experiences to level up their character, creating cross-event engagement loops that incentivised exploration and participation across the full programme.",
-    interaction: [
-      "RFID tag scanning at workshops and activations",
-      "Character progression system tied to real-world participation",
-      "Cross-workshop engagement loops encouraging exploration",
-      "Physical-digital hybrid game layer over a live festival",
-    ],
-    outcome: [
-      "Delivered a 100% solar-powered, zero-waste festival",
-      "Demonstrated a working RFID-based participation system at event scale",
-      "Created cross-programme engagement that increased workshop attendance",
-    ],
-    build: [
-      "Designed the ARG system, character progression, and RFID integration",
-      "Art directed all festival branding and motion design",
-      "Managed full event production, site mapping, and staff recruitment",
-    ],
-    media: { type: "youtube", videoId: "rwQBafXnO4Q" },
-    coinImage: "/images/coins/coin-newkind.png",
-    color: "#FFE66D",
-    tier: "hero",
-  },
-  // ── 11 ──
-  {
     id: "graphic-assets",
     title: "Freelance Graphic Design",
     role: "Designer / Creative Technologist",
@@ -406,7 +344,7 @@ export const projects: Project[] = [
     color: "#BB6BD9",
     tier: "supporting",
   },
-  // ── 12 ──
+  // ── 10 ──
   {
     id: "from-nothing",
     title: "From Nothing Webseries",
@@ -436,5 +374,67 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-fromnothing.png",
     color: "#27AE60",
     tier: "supporting",
+  },
+  // ── 11 ──
+  {
+    id: "tourism-australia",
+    title: "Tourism Australia",
+    role: "Script Writer / Voice-Over Artist",
+    year: "2015",
+    system:
+      "Collaborated on a Tourism Australia promotional campaign as the script writer and voice-over artist, shaping how Australia was presented to international audiences through narrative and performance.",
+    mechanic:
+      "Penned the campaign script to align with Tourism Australia's destination messaging strategy, then recorded the voice-over narration for the final broadcast advertisement.",
+    interaction: [
+      "Script writing and narrative development for broadcast",
+      "Voice-over recording and performance delivery",
+      "Collaboration with production team on messaging and tone",
+      "Campaign copy aligned to destination marketing objectives",
+    ],
+    outcome: [
+      "Delivered campaign script and voice-over for a Tourism Australia broadcast ad",
+      "Contributed to a national destination marketing campaign",
+      "Demonstrated copywriting and on-mic performance capability at campaign scale",
+    ],
+    build: [
+      "Wrote the campaign script",
+      "Recorded and delivered voice-over narration",
+      "Collaborated with creative team on messaging and tone",
+    ],
+    media: { type: "youtube", videoId: "l0cG-uib2-Y" },
+    coinImage: "/images/coins/coin-bechanged.png",
+    color: "#2D9CDB",
+    tier: "supporting",
+  },
+  // ── 12 ──
+  {
+    id: "newkind",
+    title: "Newkind Festival ARG",
+    role: "Co-Founder / Creative Director",
+    year: "2016–2017",
+    system:
+      "Co-founded a festival and designed an alternate reality game that gamified attendee participation across workshops, talks, and site experiences using physical-digital hybrid mechanics.",
+    mechanic:
+      "Attendees tapped RFID tags at workshops and experiences to level up their character, creating cross-event engagement loops that incentivised exploration and participation across the full programme.",
+    interaction: [
+      "RFID tag scanning at workshops and activations",
+      "Character progression system tied to real-world participation",
+      "Cross-workshop engagement loops encouraging exploration",
+      "Physical-digital hybrid game layer over a live festival",
+    ],
+    outcome: [
+      "Delivered a 100% solar-powered, zero-waste festival",
+      "Demonstrated a working RFID-based participation system at event scale",
+      "Created cross-programme engagement that increased workshop attendance",
+    ],
+    build: [
+      "Designed the ARG system, character progression, and RFID integration",
+      "Art directed all festival branding and motion design",
+      "Managed full event production, site mapping, and staff recruitment",
+    ],
+    media: { type: "youtube", videoId: "rwQBafXnO4Q" },
+    coinImage: "/images/coins/coin-newkind.png",
+    color: "#FFE66D",
+    tier: "hero",
   },
 ];
