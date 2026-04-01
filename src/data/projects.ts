@@ -316,7 +316,7 @@ export const projects: Project[] = [
   {
     id: "allens",
     title: "Allen's Lollies National Tour",
-    role: "Creative Director / Experience Designer",
+    role: "Experience Designer",
     year: "2013",
     system:
       "Co-designed a national brand activation that converted passive audiences into active participants through playful street-level engagement mechanics.",
@@ -421,7 +421,7 @@ export const projects: Project[] = [
       "Liaised between creative vision and development team",
       "Researched and developed AI integration strategy",
     ],
-    link: "https://thespatialnetwork.net/public/interiors/9246bc85-c731-446f-8f53-da207e504c2c",
+    link: "https://thespatialnetwork.net/",
     media: { type: "iframe", url: "https://thespatialnetwork.net/public/interiors/9246bc85-c731-446f-8f53-da207e504c2c" },
     coinImage: "/images/coins/coin-tsn.png",
     color: "#845EC2",
