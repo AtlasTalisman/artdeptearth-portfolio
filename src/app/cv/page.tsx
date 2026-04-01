@@ -54,6 +54,9 @@ export default function CV() {
           <p className="mono" style={{ fontSize: "9px", color: "#888", letterSpacing: "0.05em" }}>
             Melbourne, Australia&nbsp;&nbsp;·&nbsp;&nbsp;atlastalisman@gmail.com&nbsp;&nbsp;·&nbsp;&nbsp;+61 493 091 039&nbsp;&nbsp;·&nbsp;&nbsp;artdept.earth
           </p>
+          <p className="mono" style={{ fontSize: "9px", color: "#888", letterSpacing: "0.03em", marginTop: "2mm" }}>
+            Interactive portfolio: <span style={{ fontWeight: 700, color: "#333" }}>www.artdept.earth</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Printable portfolio: <span style={{ fontWeight: 700, color: "#333" }}>www.artdept.earth/print-portfolio</span>
+          </p>
         </div>
 
         {/* Positioning */}
