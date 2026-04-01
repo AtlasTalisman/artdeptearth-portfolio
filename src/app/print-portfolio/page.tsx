@@ -180,6 +180,9 @@ export default function PrintPortfolio() {
             <p className="text-[15px] text-gray-600 leading-[1.7] max-w-[75%]">
               Creative Director specialising in interactive systems that drive audience participation across digital platforms, physical activations, and immersive environments.
             </p>
+            <p className="font-mono text-[9px] text-gray-400 mt-6 leading-[1.7]">
+              To view live portfolio site with interactive components and embedded videos visit: <span className="text-gray-600">www.artdept.earth</span>
+            </p>
           </div>
 
           {/* Bottom section */}
