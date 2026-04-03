@@ -101,14 +101,8 @@ function TrafficCone({ onKnock, heroVisible }: { onKnock?: () => void; heroVisib
     if (!g) return;
     const p = phase.current;
 
-    // ── DESTROYED — waiting for hero to scroll back into view ──
-    if (p === "destroyed") {
-      if (heroVisible.current) {
-        resetToCone();
-        g.visible = true;
-      }
-      return;
-    }
+    // ── DESTROYED — stay hidden for the rest of this visit ──
+    if (p === "destroyed") return;
 
     // Normalise delta to 60fps equivalent — ensures consistent physics across frame rates
     const dt = Math.min(rawDelta, 0.05) * 60;
