@@ -12,6 +12,19 @@ export type ProjectMedia =
   | { type: "slideshow"; images: string[] }
   | { type: "iframe"; url: string };
 
+// ── Tag taxonomy for URL-based filtering ──
+export const TAG_TAXONOMY: Record<string, string> = {
+  ux: "UX Design",
+  ui: "UI Design",
+  gamedesign: "Game Design",
+  motion: "Motion & Animation",
+  brand: "Brand & Identity",
+  systems: "Systems Design",
+  experiential: "Experiential",
+  creativetech: "Creative Tech",
+  direction: "Creative Direction",
+};
+
 export interface Project {
   id: string;
   title: string;
@@ -29,6 +42,7 @@ export interface Project {
   media?: ProjectMedia;
   color: string;
   tier: "hero" | "supporting";
+  tags: string[]; // filter tags — keys from TAG_TAXONOMY
   examples?: string[]; // optional horizontal strip gallery images
   galleryItems?: GalleryItem[]; // gallery with per-image metadata
   headerImage?: string; // optional full-width image above System section
@@ -67,6 +81,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-dosomething.png",
     color: "#4ECDC4",
     tier: "hero",
+    tags: ["ux", "systems", "creativetech", "gamedesign"],
     examples: [
       "/images/examples/do-something-art/dsa001.png",
       "/images/examples/do-something-art/dsa002.png",
@@ -172,6 +187,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coins-ocm.png",
     color: "#FF9A76",
     tier: "hero",
+    tags: ["ui", "brand", "direction", "gamedesign"],
   },
   // ── 03 ──
   {
@@ -280,6 +296,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-gallery.png",
     color: "#BB6BD9",
     tier: "supporting",
+    tags: ["ui", "brand"],
   },
   // ── 04 ──
   {
@@ -311,6 +328,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-soop.png",
     color: "#F2994A",
     tier: "supporting",
+    tags: ["motion", "direction"],
   },
   // ── 05 ──
   {
@@ -342,6 +360,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coins-allens.png",
     color: "#FF6B6B",
     tier: "hero",
+    tags: ["ux", "experiential", "brand"],
     examples: [
       "/images/examples/allens-lollies/smilemaker00.png",
       "/images/examples/allens-lollies/smilemaker01.png",
@@ -394,6 +413,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-smarties.png",
     color: "#F7B731",
     tier: "supporting",
+    tags: ["experiential", "brand", "direction"],
   },
   // ── 07 ──
   {
@@ -426,6 +446,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-tsn.png",
     color: "#845EC2",
     tier: "hero",
+    tags: ["ux", "ui", "systems", "creativetech"],
     examples: [
       "/images/examples/spatial-network/spatial-network-00.png",
       "/images/examples/spatial-network/spatial-network-01.png",
@@ -477,6 +498,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-wentokyo.png",
     color: "#2C3E50",
     tier: "supporting",
+    tags: ["experiential", "direction"],
   },
   // ── 09 ──
   {
@@ -509,6 +531,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-terralux.png",
     color: "#56CCF2",
     tier: "supporting",
+    tags: ["motion", "creativetech", "brand"],
   },
   // ── 10 ──
   {
@@ -540,6 +563,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-bechanged.png",
     color: "#2D9CDB",
     tier: "supporting",
+    tags: ["direction"],
   },
   // ── 11 ──
   {
@@ -571,6 +595,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-fromnothing.png",
     color: "#27AE60",
     tier: "supporting",
+    tags: ["motion", "direction"],
   },
   // ── 12 ──
   {
@@ -602,6 +627,7 @@ export const projects: Project[] = [
     coinImage: "/images/coins/coin-newkind.png",
     color: "#FFE66D",
     tier: "hero",
+    tags: ["ux", "gamedesign", "systems", "experiential"],
     examples: [
       "/images/examples/newkind/Nourish Woods.JPG",
       "/images/examples/newkind/beach-circle-sunrise.JPG",
