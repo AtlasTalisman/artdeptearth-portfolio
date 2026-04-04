@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/data/projects";
 import MediaBlock from "@/components/MediaBlock";
@@ -107,11 +108,46 @@ export default function CaseStudyPanel({
                 </div>
               )}
 
-              {/* System */}
+              {/* ══════════════════════════════════════════════════════
+                  SYSTEM — enriched with concept data when available
+                  ══════════════════════════════════════════════════════ */}
               <Section title="System">
                 <p className="text-[14px] text-gray-700 leading-[1.8]">
                   {project.system}
                 </p>
+
+                {/* Concept sub-blocks — woven into System */}
+                {project.processLayers?.concept && (
+                  <div className="mt-6 grid grid-cols-1 gap-px bg-gray-200 border border-gray-200">
+                    <ConceptBlock
+                      label="Problem Statement"
+                      content={project.processLayers.concept.problem}
+                    />
+                    <ConceptBlock
+                      label="Users + Context"
+                      content={project.processLayers.concept.users}
+                    />
+                    <ConceptBlock
+                      label="Constraints"
+                      content={project.processLayers.concept.constraints}
+                    />
+                    {/* Concept images */}
+                    {project.processLayers.concept.images && project.processLayers.concept.images.length > 0 && (
+                      <div className="bg-white p-5">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {project.processLayers.concept.images.map((src, i) => (
+                            <img
+                              key={i}
+                              src={src}
+                              alt={`Concept image ${i + 1}`}
+                              className="w-full object-cover"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </Section>
 
               {/* Mechanic */}
@@ -123,7 +159,9 @@ export default function CaseStudyPanel({
                 </div>
               </Section>
 
-              {/* Interaction */}
+              {/* ══════════════════════════════════════════════════════
+                  INTERACTION — with journey flowchart when available
+                  ══════════════════════════════════════════════════════ */}
               <Section title="Interaction">
                 <ul className="space-y-2">
                   {project.interaction.map((item, i) => (
@@ -135,10 +173,32 @@ export default function CaseStudyPanel({
                     </li>
                   ))}
                 </ul>
+
+                {/* Journey flowchart — placeholder for React Flow */}
+                {project.processLayers?.journey && (
+                  <div className="mt-6 border border-gray-200 p-6 flex flex-col items-center justify-center min-h-[180px] gap-3 bg-gray-50">
+                    <span className="font-mono text-[9px] text-gray-300 uppercase tracking-widest">
+                      //////////////////
+                    </span>
+                    <p className="font-mono text-[11px] text-gray-400 uppercase tracking-wider">
+                      User journey flow — coming soon
+                    </p>
+                    <p className="font-mono text-[10px] text-gray-300 text-center max-w-xs leading-[1.8]">
+                      Interactive node diagram powered by React Flow
+                    </p>
+                  </div>
+                )}
               </Section>
 
-              {/* Outcome */}
-              <Section title="What Changed">
+              {/* ══════════════════════════════════════════════════════
+                  UI — collapsible Figma embeds (only when data exists)
+                  ══════════════════════════════════════════════════════ */}
+              {project.processLayers?.ui && (
+                <CollapsibleUI data={project.processLayers.ui} />
+              )}
+
+              {/* Results (renamed from "What Changed") */}
+              <Section title="Results">
                 <ul className="space-y-2">
                   {project.outcome.map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-[13px] text-gray-700">
@@ -191,6 +251,7 @@ export default function CaseStudyPanel({
   );
 }
 
+// ── Reusable section wrapper ──
 function Section({
   title,
   children,
@@ -202,6 +263,104 @@ function Section({
     <div className="mb-8">
       <p className="section-label mb-3">[ {title} ]</p>
       {children}
+    </div>
+  );
+}
+
+// ── Concept sub-block (used inside System) ──
+function ConceptBlock({ label, content }: { label: string; content: string }) {
+  return (
+    <div className="bg-white p-5">
+      <p className="font-mono text-[9px] text-gray-400 uppercase tracking-wider mb-2">
+        {label}
+      </p>
+      <p className="text-[13px] text-gray-700 leading-[1.8]">{content}</p>
+    </div>
+  );
+}
+
+// ── Collapsible UI section (Figma embeds) ──
+function CollapsibleUI({ data }: { data: NonNullable<Project["processLayers"]>["ui"] }) {
+  const [open, setOpen] = useState(false);
+
+  if (!data) return null;
+  const hasWireframe = !!data.wireframeUrl;
+  const hasPrototype = !!data.prototypeUrl;
+  if (!hasWireframe && !hasPrototype) return null;
+
+  return (
+    <div className="mb-8">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between group cursor-pointer"
+      >
+        <p className="section-label">[ UI Design ]</p>
+        <span className="font-mono text-[10px] text-gray-400 group-hover:text-black transition-colors">
+          {open ? "Hide ↑" : "View ↓"}
+        </span>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="mt-4 space-y-6">
+              {hasWireframe && (
+                <FigmaEmbed
+                  url={data.wireframeUrl!}
+                  label="Wireframes"
+                  caption={data.wireframeCaption}
+                />
+              )}
+              {hasPrototype && (
+                <FigmaEmbed
+                  url={data.prototypeUrl!}
+                  label="High-Fidelity Prototype"
+                  caption={data.prototypeCaption}
+                />
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ── Figma embed ──
+function FigmaEmbed({
+  url,
+  label,
+  caption,
+}: {
+  url: string;
+  label: string;
+  caption?: string;
+}) {
+  const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`;
+
+  return (
+    <div>
+      <p className="font-mono text-[9px] text-gray-400 uppercase tracking-wider mb-3">
+        {label}
+      </p>
+      <div className="w-full aspect-[4/3] border border-gray-200 overflow-hidden bg-gray-50">
+        <iframe
+          src={embedUrl}
+          className="w-full h-full"
+          allowFullScreen
+          loading="lazy"
+          title={label}
+        />
+      </div>
+      {caption && (
+        <p className="font-mono text-[10px] text-gray-400 mt-3 leading-[1.8]">{caption}</p>
+      )}
     </div>
   );
 }

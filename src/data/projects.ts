@@ -1,3 +1,29 @@
+// ── Process Layers data structures ──
+export interface ProcessLayersConcept {
+  problem: string;
+  users: string;
+  constraints: string;
+  images?: string[];
+}
+
+export interface ProcessLayersJourney {
+  // React Flow data — will be populated in a later phase
+  placeholder?: string;
+}
+
+export interface ProcessLayersUI {
+  wireframeUrl?: string;   // Figma embed share URL
+  prototypeUrl?: string;   // Figma prototype embed URL
+  wireframeCaption?: string;
+  prototypeCaption?: string;
+}
+
+export interface ProcessLayersData {
+  concept?: ProcessLayersConcept;
+  journey?: ProcessLayersJourney;
+  ui?: ProcessLayersUI;
+}
+
 export interface GalleryItem {
   src: string;
   title: string;
@@ -47,6 +73,7 @@ export interface Project {
   galleryItems?: GalleryItem[]; // gallery with per-image metadata
   headerImage?: string; // optional full-width image above System section
   headerImageCaption?: string; // optional caption under headerImage
+  processLayers?: ProcessLayersData;
 }
 
 export const projects: Project[] = [
@@ -82,6 +109,13 @@ export const projects: Project[] = [
     color: "#4ECDC4",
     tier: "hero",
     tags: ["ux", "systems", "creativetech", "gamedesign"],
+    processLayers: {
+      concept: {
+        problem: "People want to take positive action in the world but struggle to turn vague intention into concrete behaviour. There's no lightweight, social system for logging and witnessing real-world acts — the gap between wanting to do something and actually doing it remains invisible.",
+        users: "Busy individuals who care about making a difference but lack accountability structures. Community organisers, creative practitioners, and everyday people motivated by social proof and shared momentum. Users range from solo participants to group facilitators.",
+        constraints: "Actions must be simple enough to submit in under 60 seconds. The platform needs to work without mandatory social accounts. Content moderation must scale without a large team. The system must reward participation intrinsically — no token economy or leaderboards.",
+      },
+    },
     examples: [
       "/images/examples/do-something-art/dsa001.png",
       "/images/examples/do-something-art/dsa002.png",
